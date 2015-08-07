@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL
+namespace CTS
 {
-    public class DatabaseContext
+    public class User : Entity
     {
+        public string Name { get; set; }
     }
 }
