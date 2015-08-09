@@ -5,14 +5,27 @@
 -- Table: User
 CREATE TABLE User (
     id integer NOT NULL  PRIMARY KEY AUTOINCREMENT,
-    Name varchar(255) NOT NULL,
+    Name varchar NOT NULL,
     Banned boolean NOT NULL,
     DateRegistered datetime NOT NULL,
-    Email varchar(255) NOT NULL,
+    Email varchar NOT NULL,
     EmailConfirmed boolean NOT NULL,
-    PasswordHash varchar(255) NOT NULL,
-    SecurityStamp varchar(255) NOT NULL,
+    PasswordHash varchar NOT NULL,
+    SecurityStamp varchar NOT NULL,
     BirthDate datetime NOT NULL
+);
+
+-- Table: Idea
+CREATE TABLE Idea (
+    id integer NOT NULL  PRIMARY KEY AUTOINCREMENT,
+    Deleted boolean NOT NULL,
+    Title varchar NOT NULL,
+    Description text NOT NULL,
+    UserId integer NOT NULL,
+    TimePosted datetime NOT NULL,
+    TimeValidated datetime,
+    TimeClosed datetime,
+    FOREIGN KEY (UserId) REFERENCES User (id)
 );
 
 -- tables
@@ -40,19 +53,6 @@ CREATE TABLE CommentVote (
     FOREIGN KEY (CommentId) REFERENCES Comment (id)
 );
 
--- Table: Idea
-CREATE TABLE Idea (
-    id integer NOT NULL  PRIMARY KEY AUTOINCREMENT,
-    Deleted boolean NOT NULL,
-    Title varchar(255) NOT NULL,
-    Description text NOT NULL,
-    UserId integer NOT NULL,
-    TimePosted datetime NOT NULL,
-    TimeValidated datetime,
-    TimeClosed datetime,
-    FOREIGN KEY (UserId) REFERENCES User (id)
-);
-
 -- Table: IdeaVote
 CREATE TABLE IdeaVote (
     id integer NOT NULL  PRIMARY KEY,
@@ -64,6 +64,17 @@ CREATE TABLE IdeaVote (
     FOREIGN KEY (UserId) REFERENCES User (id)
 );
 
+-- Table: Tag
+CREATE TABLE Tag (
+    id integer NOT NULL  PRIMARY KEY,
+    Name varchar NOT NULL,
+    AddedBy integer NOT NULL,
+    TimeCreated datetime NOT NULL,
+    Deleted boolean NOT NULL,
+    CreatorId integer NOT NULL,
+    FOREIGN KEY (CreatorId) REFERENCES User (id)
+);
+
 -- Table: Idea_is_Tagged
 CREATE TABLE IdeaIsTagged (
     id integer NOT NULL  PRIMARY KEY,
@@ -71,17 +82,6 @@ CREATE TABLE IdeaIsTagged (
     TagId integer NOT NULL,
     FOREIGN KEY (IdeaId) REFERENCES Idea (id),
     FOREIGN KEY (TagId) REFERENCES Tag (id)
-);
-
--- Table: Tag
-CREATE TABLE Tag (
-    id integer NOT NULL  PRIMARY KEY,
-    Name varchar(64) NOT NULL,
-    AddedBy integer NOT NULL,
-    TimeCreated datetime NOT NULL,
-    Deleted boolean NOT NULL,
-    CreatorId integer NOT NULL,
-    FOREIGN KEY (CreatorId) REFERENCES User (id)
 );
 
 -- Table: User_observes_Tag
@@ -93,9 +93,6 @@ CREATE TABLE UserObservesTag (
     FOREIGN KEY (TagId) REFERENCES Tag (id),
     FOREIGN KEY (UserId) REFERENCES User (id)
 );
-
-
-
 
 
 -- End of file.
