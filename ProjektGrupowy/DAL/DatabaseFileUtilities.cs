@@ -10,10 +10,11 @@ namespace DAL
 {
     public static class DatabaseFileUtilities
     {
-        private static string filename;
+        private static string _filename;
+        private static SQLiteConnection _sqLiteConnection;
         public static String Filename
         {
-            get { return filename ?? (filename = Path.GetRandomFileName() + ".db"); }
+            get { return _filename ?? (_filename = Path.GetRandomFileName() + ".db"); }
         }
 
         public static void CreateFile()
@@ -22,18 +23,15 @@ namespace DAL
             {
                 DeleteFile();
             }
-            SQLiteConnection.CreateFile(filename);
-            var sqLiteConnection = new SQLiteConnection("Data Source="+filename+";Version=3;");
+            SQLiteConnection.CreateFile(_filename);
+            _sqLiteConnection = new SQLiteConnection("Data Source="+_filename+";Version=3;");
             string tableCreates = File.ReadAllText("DatabaseRevisions.sql");
-            sqLiteConnection.Open();
+            _sqLiteConnection.Open();
 
-            SQLiteCommand sqLiteCommand = new SQLiteCommand(tableCreates, sqLiteConnection);
+            SQLiteCommand sqLiteCommand = new SQLiteCommand(tableCreates, _sqLiteConnection);
             sqLiteCommand.ExecuteNonQuery();
 
-            sqLiteConnection.Close();
-
-
-
+            //_sqLiteConnection.Close();
 
         }
 
@@ -62,9 +60,16 @@ namespace DAL
 
         public static void DeleteFile()
         {
-            if (File.Exists(Filename))
+            try
             {
-                File.Delete(Filename);
+
+                if (File.Exists(Filename))
+                {
+                    File.Delete(Filename);
+                }
+            }
+            catch
+            {
             }
         }
 

@@ -11,17 +11,28 @@ namespace DAL.UnitTests
     [TestFixture]
     class UtilitiesTest
     {
-        [TestCase("Create Database")]
-        public void Test(string name)
+        private string _file;
+        [Test]
+        public void CreateDatabase()
         {
-            string newFile = DatabaseFileUtilities.Filename;
-            Assert.That(null != newFile);
+            _file = DatabaseFileUtilities.Filename;
+            Assert.That(null != _file);
 
             DatabaseFileUtilities.CreateFile();
-            Assert.That(File.Exists(newFile));
+            Assert.That(File.Exists(_file));
 
-            var fi = new FileInfo(newFile);
+            var fi = new FileInfo(_file);
             Assert.That(fi.Length > 0);
+        }
+
+        [Test]
+        public void DeleteDatabase()
+        {
+            if (null != _file)
+            {
+                DatabaseFileUtilities.DeleteFile();
+            }
+            Assert.That(!File.Exists(_file));
         }
     }
 }
