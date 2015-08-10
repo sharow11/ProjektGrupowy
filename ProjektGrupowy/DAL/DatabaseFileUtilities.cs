@@ -27,6 +27,9 @@ namespace DAL
             string tableCreates = File.ReadAllText("DatabaseRevisions.sql");
             sqLiteConnection.Open();
 
+            SQLiteCommand sqLiteCommand = new SQLiteCommand(tableCreates, sqLiteConnection);
+            sqLiteCommand.ExecuteNonQuery();
+
             sqLiteConnection.Close();
 
 

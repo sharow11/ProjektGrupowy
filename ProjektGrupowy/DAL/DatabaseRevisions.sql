@@ -58,8 +58,8 @@ CREATE TABLE IdeaVote (
     id integer NOT NULL  PRIMARY KEY,
     Up boolean NOT NULL,
     Time_Posted datetime NOT NULL,
-    Idea_id integer,
-    User_id integer NOT NULL,
+    IdeaId integer,
+    UserId integer NOT NULL,
     FOREIGN KEY (IdeaId) REFERENCES Idea (id),
     FOREIGN KEY (UserId) REFERENCES User (id)
 );

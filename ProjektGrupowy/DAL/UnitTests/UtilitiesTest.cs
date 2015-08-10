@@ -19,6 +19,9 @@ namespace DAL.UnitTests
 
             DatabaseFileUtilities.CreateFile();
             Assert.That(File.Exists(newFile));
+
+            var fi = new FileInfo(newFile);
+            Assert.That(fi.Length > 0);
         }
     }
 }
