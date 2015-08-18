@@ -1,4 +1,5 @@
-﻿@{
+﻿@using CTS
+@{
     ViewBag.Title = "Contact";
 }
 <h2>@ViewBag.Title.</h2>
@@ -14,4 +15,27 @@
 <address>
     <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
     <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Date Registered</th>
+        </tr>
+        </thead>
+        @foreach (User user in ViewBag.Users)
+        {
+            <tr>
+                <td>
+                    @user.Name
+                </td>
+                <td>
+                    @user.Email
+                </td>
+                <td>
+                    @user.DateRegistered
+                </td>
+            </tr>
+        }
+    </table>
 </address>

@@ -8,6 +8,6 @@ namespace CTS
 {
     public class Entity
     {
-        public int id { get; set; }
+        public Int64 id { get; set; }
     }
 }

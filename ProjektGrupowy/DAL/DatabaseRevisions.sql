@@ -4,7 +4,7 @@
 
 -- Table: User
 CREATE TABLE Users (
-    id int NOT NULL  PRIMARY KEY AUTOINCREMENT,
+    id integer NOT NULL  PRIMARY KEY AUTOINCREMENT,
     Name varchar NOT NULL,
     Banned boolean NOT NULL DEFAULT 0,
     DateRegistered datetime NOT NULL,
