@@ -14,7 +14,7 @@ namespace DAL
         private static SQLiteConnection _sqLiteConnection;
         public static String Filename
         {
-            get { return _filename ?? (_filename = Path.GetRandomFileName() + ".db"); }
+            get { return _filename ?? (_filename = "test.db"); }
         }
 
         public static void CreateFile()
@@ -23,16 +23,16 @@ namespace DAL
             {
                 DeleteFile();
             }
-            SQLiteConnection.CreateFile(_filename);
-            _sqLiteConnection = new SQLiteConnection("Data Source="+_filename+";Version=3;");
+            SQLiteConnection.CreateFile(Filename);
+            _sqLiteConnection = new SQLiteConnection("Data Source=" + Filename + ";Version=3;");
             string tableCreates = File.ReadAllText("DatabaseRevisions.sql");
             _sqLiteConnection.Open();
 
             SQLiteCommand sqLiteCommand = new SQLiteCommand(tableCreates, _sqLiteConnection);
             sqLiteCommand.ExecuteNonQuery();
 
-            //_sqLiteConnection.Close();
-
+            _sqLiteConnection.Close();
+            GC.Collect();
         }
 
         /*

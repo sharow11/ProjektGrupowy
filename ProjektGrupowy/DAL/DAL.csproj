@@ -54,7 +54,6 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="ConnectionString.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -96,6 +95,12 @@
     <None Include="DatabaseRevisions.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CTS\CTS.csproj">
+      <Project>{919b61de-040f-4498-8afc-4c7fa9d67893}</Project>
+      <Name>CTS</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

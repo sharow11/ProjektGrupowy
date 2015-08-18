@@ -3,20 +3,20 @@
 -- Last modification date: 2015-07-12 17:31:25.529
 
 -- Table: User
-CREATE TABLE User (
-    id integer NOT NULL  PRIMARY KEY AUTOINCREMENT,
+CREATE TABLE Users (
+    id int NOT NULL  PRIMARY KEY AUTOINCREMENT,
     Name varchar NOT NULL,
-    Banned boolean NOT NULL,
+    Banned boolean NOT NULL DEFAULT 0,
     DateRegistered datetime NOT NULL,
     Email varchar NOT NULL,
-    EmailConfirmed boolean NOT NULL,
+    EmailConfirmed boolean NOT NULL DEFAULT 0,
     PasswordHash varchar NOT NULL,
     SecurityStamp varchar NOT NULL,
     BirthDate datetime NOT NULL
 );
 
 -- Table: Idea
-CREATE TABLE Idea (
+CREATE TABLE Ideas (
     id integer NOT NULL  PRIMARY KEY AUTOINCREMENT,
     Deleted boolean NOT NULL,
     Title varchar NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE Idea (
 
 -- tables
 -- Table: Comment
-CREATE TABLE Comment (
+CREATE TABLE Comments (
     id integer NOT NULL  PRIMARY KEY,
     TimePosted datetime NOT NULL,
     Deleted boolean NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE Comment (
 );
 
 -- Table: CommentVote
-CREATE TABLE CommentVote (
+CREATE TABLE CommentVotes (
     id integer NOT NULL  PRIMARY KEY,
     Up boolean NOT NULL,
     UserId integer NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE CommentVote (
 );
 
 -- Table: IdeaVote
-CREATE TABLE IdeaVote (
+CREATE TABLE IdeaVotes (
     id integer NOT NULL  PRIMARY KEY,
     Up boolean NOT NULL,
     Time_Posted datetime NOT NULL,
@@ -65,7 +65,7 @@ CREATE TABLE IdeaVote (
 );
 
 -- Table: Tag
-CREATE TABLE Tag (
+CREATE TABLE Tags (
     id integer NOT NULL  PRIMARY KEY,
     Name varchar NOT NULL,
     AddedBy integer NOT NULL,
@@ -76,7 +76,7 @@ CREATE TABLE Tag (
 );
 
 -- Table: Idea_is_Tagged
-CREATE TABLE IdeaIsTagged (
+CREATE TABLE IdeasAreTagged (
     id integer NOT NULL  PRIMARY KEY,
     IdeaId integer NOT NULL,
     TagId integer NOT NULL,
@@ -85,7 +85,7 @@ CREATE TABLE IdeaIsTagged (
 );
 
 -- Table: User_observes_Tag
-CREATE TABLE UserObservesTag (
+CREATE TABLE UserObservesTags (
     id integer NOT NULL  PRIMARY KEY,
     TagId integer NOT NULL,
     UserId integer NOT NULL,
