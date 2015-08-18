@@ -75,20 +75,20 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="SQLite.Designer">
-      <HintPath>..\..\sqlite-netFx45-static-binary-bundle-Win32-2012-1.0.97.0\SQLite.Designer.dll</HintPath>
+      <HintPath>..\..\sqlite-netFx45-static-binary-bundle-x64-2012-1.0.97.0\SQLite.Designer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Data.SQLite">
-      <HintPath>..\..\sqlite-netFx45-static-binary-bundle-Win32-2012-1.0.97.0\System.Data.SQLite.dll</HintPath>
+      <HintPath>..\..\sqlite-netFx45-static-binary-bundle-x64-2012-1.0.97.0\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.SQLite.EF6">
-      <HintPath>..\..\sqlite-netFx45-static-binary-bundle-Win32-2012-1.0.97.0\System.Data.SQLite.EF6.dll</HintPath>
+      <HintPath>..\..\sqlite-netFx45-static-binary-bundle-x64-2012-1.0.97.0\System.Data.SQLite.EF6.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.SQLite.Linq">
-      <HintPath>..\..\sqlite-netFx45-static-binary-bundle-Win32-2012-1.0.97.0\System.Data.SQLite.Linq.dll</HintPath>
+      <HintPath>..\..\sqlite-netFx45-static-binary-bundle-x64-2012-1.0.97.0\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
