@@ -18,7 +18,7 @@ CREATE TABLE Users (
 -- Table: Idea
 CREATE TABLE Ideas (
     id integer NOT NULL  PRIMARY KEY AUTOINCREMENT,
-    Deleted boolean NOT NULL,
+    Deleted boolean NOT NULL DEFAULT FALSE,
     Title varchar NOT NULL,
     Description text NOT NULL,
     UserId integer NOT NULL,
@@ -68,7 +68,6 @@ CREATE TABLE IdeaVotes (
 CREATE TABLE Tags (
     id integer NOT NULL  PRIMARY KEY,
     Name varchar NOT NULL,
-    AddedBy integer NOT NULL,
     TimeCreated datetime NOT NULL,
     Deleted boolean NOT NULL,
     CreatorId integer NOT NULL,
