@@ -25,7 +25,7 @@ CREATE TABLE Ideas (
     TimePosted datetime NOT NULL,
     TimeValidated datetime,
     TimeClosed datetime,
-    FOREIGN KEY (UserId) REFERENCES User (id)
+    FOREIGN KEY (UserId) REFERENCES Users (id)
 );
 
 -- tables
@@ -37,9 +37,9 @@ CREATE TABLE Comments (
     UserId integer NOT NULL,
     IdeaId integer NOT NULL,
     ParentId integer,
-    FOREIGN KEY (ParentId) REFERENCES Comment (id),
-    FOREIGN KEY (IdeaId) REFERENCES Idea (id),
-    FOREIGN KEY (UserId) REFERENCES User (id)
+    FOREIGN KEY (ParentId) REFERENCES Comments (id),
+    FOREIGN KEY (IdeaId) REFERENCES Ideas (id),
+    FOREIGN KEY (UserId) REFERENCES Users (id)
 );
 
 -- Table: CommentVote
@@ -49,8 +49,8 @@ CREATE TABLE CommentVotes (
     UserId integer NOT NULL,
     CommentId integer NOT NULL,
     TimePosted datetime NOT NULL,
-    FOREIGN KEY (UserId) REFERENCES User (id),
-    FOREIGN KEY (CommentId) REFERENCES Comment (id)
+    FOREIGN KEY (UserId) REFERENCES Users (id),
+    FOREIGN KEY (CommentId) REFERENCES Comments (id)
 );
 
 -- Table: IdeaVote
@@ -60,8 +60,8 @@ CREATE TABLE IdeaVotes (
     Time_Posted datetime NOT NULL,
     IdeaId integer,
     UserId integer NOT NULL,
-    FOREIGN KEY (IdeaId) REFERENCES Idea (id),
-    FOREIGN KEY (UserId) REFERENCES User (id)
+    FOREIGN KEY (IdeaId) REFERENCES Ideas (id),
+    FOREIGN KEY (UserId) REFERENCES Users (id)
 );
 
 -- Table: Tag
@@ -71,7 +71,7 @@ CREATE TABLE Tags (
     TimeCreated datetime NOT NULL,
     Deleted boolean NOT NULL,
     CreatorId integer NOT NULL,
-    FOREIGN KEY (CreatorId) REFERENCES User (id)
+    FOREIGN KEY (CreatorId) REFERENCES Users (id)
 );
 
 -- Table: Idea_is_Tagged
@@ -79,8 +79,8 @@ CREATE TABLE IdeasAreTagged (
     id integer NOT NULL  PRIMARY KEY,
     IdeaId integer NOT NULL,
     TagId integer NOT NULL,
-    FOREIGN KEY (IdeaId) REFERENCES Idea (id),
-    FOREIGN KEY (TagId) REFERENCES Tag (id)
+    FOREIGN KEY (IdeaId) REFERENCES Ideas (id),
+    FOREIGN KEY (TagId) REFERENCES Tags (id)
 );
 
 -- Table: User_observes_Tag
@@ -89,8 +89,8 @@ CREATE TABLE UserObservesTags (
     TagId integer NOT NULL,
     UserId integer NOT NULL,
     TimeCreated datetime NOT NULL,
-    FOREIGN KEY (TagId) REFERENCES Tag (id),
-    FOREIGN KEY (UserId) REFERENCES User (id)
+    FOREIGN KEY (TagId) REFERENCES Tags (id),
+    FOREIGN KEY (UserId) REFERENCES Users (id)
 );
 
 

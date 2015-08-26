@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,13 @@ namespace DAL
                 { DataSource = filename, ForeignKeys = true }
             .ConnectionString }, true)
         {        
+        }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Idea>().HasRequired(a => a.User).WithMany().Map(x => x.MapKey("UserId"));
+            modelBuilder.Entity<Comment>().HasRequired(a => a.User).WithMany().Map(x => x.MapKey("UserId"));
+            modelBuilder.Entity<Comment>().HasRequired(a => a.Idea).WithMany().Map(x => x.MapKey("IdeaId"));
+            modelBuilder.Entity<Comment>().HasOptional(a => a.Parent).WithMany().Map(x => x.MapKey("ParentId"));
         }
     }
 }

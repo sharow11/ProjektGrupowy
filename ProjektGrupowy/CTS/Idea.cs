@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CTS
 {
+    [Table("Ideas")]
     public class Idea : Entity
     {
         public bool Deleted { get; set; }
