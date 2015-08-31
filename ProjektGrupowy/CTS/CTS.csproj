@@ -59,15 +59,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comment.cs" />
-    <Compile Include="CommentVote.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Idea.cs" />
-    <Compile Include="IdeasAreTagged.cs" />
-    <Compile Include="IdeaVote.cs" />
     <Compile Include="Tag.cs" />
     <Compile Include="UnitTests\UserTest.cs" />
     <Compile Include="User.cs" />
-    <Compile Include="UserObservesTags.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">

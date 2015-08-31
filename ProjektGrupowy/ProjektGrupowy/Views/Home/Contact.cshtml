@@ -38,4 +38,32 @@
             </tr>
         }
     </table>
+    <table>
+        <thead>
+        <tr>
+            <th>User</th>
+            <th>Comment</th>
+        </tr>
+        </thead>
+        @foreach (Comment comment in ViewBag.Comments)
+        {
+            if (comment.Parent == null)
+            {
+                <tr>
+                    <td>@comment.User.Name</td>
+                    <td>@comment.CommentText</td>
+                </tr>
+                foreach (Comment child in ViewBag.Comments)
+                {
+                    if (child.Parent != null && child.Parent.Id == comment.Id)
+                    {
+                        <tr>
+                            <td style="background-color: gray">@child.User.Name</td>
+                            <td style="background-color: gray">@child.CommentText</td>
+                        </tr>
+                    }
+                }
+            }
+        }
+</table>
 </address>

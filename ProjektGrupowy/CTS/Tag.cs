@@ -12,6 +12,6 @@ namespace CTS
         public User User { get; set; }
         public DateTime TimeCreated { get; set; }
         public bool Deleted { get; set; }
-
+        public virtual ICollection<Idea> Ideas { get; set; }
     }
 }

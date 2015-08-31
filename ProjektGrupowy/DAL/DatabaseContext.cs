@@ -14,12 +14,8 @@ namespace DAL
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<CommentVote> CommentVotess { get; set; }
         public DbSet<Idea> Ideas { get; set; }
-        public DbSet<IdeasAreTagged> IdeasAreTagged { get; set; }
-        public DbSet<IdeaVote> IdeaVotes { get; set; }
         public DbSet<Tag> Tags { get; set; }
-        public DbSet<UserObservesTags> UserObservesTags { get; set; }
 
         public DatabaseContext(string filename) : base(new SQLiteConnection() { ConnectionString =
             new SQLiteConnectionStringBuilder()
@@ -33,6 +29,16 @@ namespace DAL
             modelBuilder.Entity<Comment>().HasRequired(a => a.User).WithMany().Map(x => x.MapKey("UserId"));
             modelBuilder.Entity<Comment>().HasRequired(a => a.Idea).WithMany().Map(x => x.MapKey("IdeaId"));
             modelBuilder.Entity<Comment>().HasOptional(a => a.Parent).WithMany().Map(x => x.MapKey("ParentId"));
-        }
+            modelBuilder.Entity<Tag>().HasRequired(a => a.User).WithMany().Map(x => x.MapKey("CreatorId"));
+            modelBuilder.Entity<Idea>()
+            .HasMany<Tag>(s => s.Tags)
+            .WithMany(c => c.Ideas)
+            .Map(cs =>
+            {
+                cs.MapLeftKey("IdeaId");
+                cs.MapRightKey("TagId");
+                cs.ToTable("IdeaTags");
+            });
+      }
     }
 }

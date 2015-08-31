@@ -17,5 +17,7 @@ namespace CTS
         public DateTime TimePosted { get; set; }
         public DateTime TimeValidated { get; set; }
         public DateTime TimeClosed { get; set; }
+        public int Score { get; set; }
+        public virtual ICollection<Tag> Tags { get; set; }
     }
 }

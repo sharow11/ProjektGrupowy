@@ -49,6 +49,7 @@ namespace DAL.UnitTests
                 PasswordHash = "aaa",
                 SecurityStamp = "aaa"
             });
+            dbcontext.SaveChanges();
             User user = new User()
             {
                 Name = "b",
@@ -58,7 +59,6 @@ namespace DAL.UnitTests
                 PasswordHash = "aaa",
                 SecurityStamp = "aaa"
             };
-            dbcontext.Users.Add(user);
             User usr = new User()
             {
                 Name = "a",
@@ -69,8 +69,6 @@ namespace DAL.UnitTests
                 SecurityStamp = "aaa111",
                 Banned = true
             };
-            dbcontext.Users.Add(usr);
-            dbcontext.SaveChanges();
 
             Idea idea = new Idea()
             {
@@ -82,7 +80,20 @@ namespace DAL.UnitTests
                 Title = "qwer",
                 User = usr
             };
+            dbcontext.Users.Add(usr);
+            dbcontext.Users.Add(user);
+            dbcontext.SaveChanges();
             dbcontext.Ideas.Add(idea);
+            dbcontext.SaveChanges();
+
+            Tag tag = new Tag()
+            {
+                Name = "Porn",
+                Ideas = new List<Idea>() {idea},
+                User = usr
+            };
+            idea.Tags = new List<Tag>(){tag};
+            dbcontext.Tags.Add(tag);
             dbcontext.SaveChanges();
 
             Comment comment = new Comment()
@@ -90,7 +101,8 @@ namespace DAL.UnitTests
                 Deleted = false,
                 Idea = idea,
                 TimePosted = DateTime.Now,
-                User = usr
+                User = usr,
+                CommentText = "Lorem Ipsum"
             };
             Comment comment2 = new Comment()
             {
@@ -98,15 +110,17 @@ namespace DAL.UnitTests
                 Idea = idea,
                 TimePosted = DateTime.Now,
                 User = user,
-                Parent = comment
+                Parent = comment,
+                CommentText = "QWERTY"
             };
             dbcontext.Comments.Add(comment);
             dbcontext.Comments.Add(comment2);
             dbcontext.SaveChanges();
 
-            var id = dbcontext.Users.First(x => x.Banned == true).id;
-            Assert.AreEqual(id, dbcontext.Ideas.First().User.id);
-            Assert.AreEqual(id, dbcontext.Comments.First(x => x.User.id == user.id).Parent.User.id);
+            var id = dbcontext.Users.First(x => x.Banned == true).Id;
+            Assert.AreEqual(id, dbcontext.Ideas.First().User.Id);
+            Assert.AreEqual(id, dbcontext.Comments.First(x => x.User.Id == user.Id).Parent.User.Id);
+            Assert.AreEqual(dbcontext.Tags.First().Name, dbcontext.Ideas.First().Tags.First().Name);
         }
 
         [Test]

@@ -4,7 +4,7 @@
 
 -- Table: User
 CREATE TABLE Users (
-    id integer NOT NULL  PRIMARY KEY AUTOINCREMENT,
+    Id integer NOT NULL  PRIMARY KEY AUTOINCREMENT,
     Name varchar NOT NULL,
     Banned boolean NOT NULL DEFAULT 0,
     DateRegistered datetime NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE Users (
 
 -- Table: Idea
 CREATE TABLE Ideas (
-    id integer NOT NULL  PRIMARY KEY AUTOINCREMENT,
+    Id integer NOT NULL  PRIMARY KEY AUTOINCREMENT,
     Deleted boolean NOT NULL DEFAULT FALSE,
     Title varchar NOT NULL,
     Description text NOT NULL,
@@ -25,48 +25,29 @@ CREATE TABLE Ideas (
     TimePosted datetime NOT NULL,
     TimeValidated datetime,
     TimeClosed datetime,
+	Score int NOT NULL DEFAULT(0),
     FOREIGN KEY (UserId) REFERENCES Users (id)
 );
 
 -- tables
 -- Table: Comment
 CREATE TABLE Comments (
-    id integer NOT NULL  PRIMARY KEY,
+    Id integer NOT NULL  PRIMARY KEY AUTOINCREMENT,
     TimePosted datetime NOT NULL,
     Deleted boolean NOT NULL,
     UserId integer NOT NULL,
     IdeaId integer NOT NULL,
     ParentId integer,
+	CommentText Text,
+	Score int NOT NULL DEFAULT(0),
     FOREIGN KEY (ParentId) REFERENCES Comments (id),
-    FOREIGN KEY (IdeaId) REFERENCES Ideas (id),
-    FOREIGN KEY (UserId) REFERENCES Users (id)
-);
-
--- Table: CommentVote
-CREATE TABLE CommentVotes (
-    id integer NOT NULL  PRIMARY KEY,
-    Up boolean NOT NULL,
-    UserId integer NOT NULL,
-    CommentId integer NOT NULL,
-    TimePosted datetime NOT NULL,
-    FOREIGN KEY (UserId) REFERENCES Users (id),
-    FOREIGN KEY (CommentId) REFERENCES Comments (id)
-);
-
--- Table: IdeaVote
-CREATE TABLE IdeaVotes (
-    id integer NOT NULL  PRIMARY KEY,
-    Up boolean NOT NULL,
-    Time_Posted datetime NOT NULL,
-    IdeaId integer,
-    UserId integer NOT NULL,
     FOREIGN KEY (IdeaId) REFERENCES Ideas (id),
     FOREIGN KEY (UserId) REFERENCES Users (id)
 );
 
 -- Table: Tag
 CREATE TABLE Tags (
-    id integer NOT NULL  PRIMARY KEY,
+    Id integer NOT NULL  PRIMARY KEY AUTOINCREMENT,
     Name varchar NOT NULL,
     TimeCreated datetime NOT NULL,
     Deleted boolean NOT NULL,
@@ -75,24 +56,12 @@ CREATE TABLE Tags (
 );
 
 -- Table: Idea_is_Tagged
-CREATE TABLE IdeasAreTagged (
-    id integer NOT NULL  PRIMARY KEY,
-    IdeaId integer NOT NULL,
+CREATE TABLE IdeaTags (
     TagId integer NOT NULL,
+	IdeaId int NOT NULL,
+	PRIMARY KEY (TagId, IdeaId),
     FOREIGN KEY (IdeaId) REFERENCES Ideas (id),
     FOREIGN KEY (TagId) REFERENCES Tags (id)
 );
-
--- Table: User_observes_Tag
-CREATE TABLE UserObservesTags (
-    id integer NOT NULL  PRIMARY KEY,
-    TagId integer NOT NULL,
-    UserId integer NOT NULL,
-    TimeCreated datetime NOT NULL,
-    FOREIGN KEY (TagId) REFERENCES Tags (id),
-    FOREIGN KEY (UserId) REFERENCES Users (id)
-);
-
-
 -- End of file.
 

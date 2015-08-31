@@ -10,6 +10,6 @@ namespace CTS
     public class Entity
     {
         [Key]
-        public Int64 id { get; set; }
+        public Int64 Id { get; set; }
     }
 }
