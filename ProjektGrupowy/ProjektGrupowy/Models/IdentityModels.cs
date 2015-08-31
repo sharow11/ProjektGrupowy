@@ -28,5 +28,7 @@ namespace ProjektGrupowy.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<CTS.Idea> Ideas { get; set; }
     }
 }
