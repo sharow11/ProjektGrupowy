@@ -12,9 +12,6 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Deleted)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Title)
         </th>
         <th>
@@ -22,12 +19,6 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.TimePosted)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TimeValidated)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TimeClosed)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Score)
@@ -38,9 +29,6 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Deleted)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Title)
         </td>
         <td>
@@ -48,9 +36,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.TimePosted)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TimeValidated)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.TimeClosed)

@@ -38,6 +38,7 @@ namespace ProjektGrupowy.Controllers
             }
             string dbString = HttpContext.Server.MapPath("~/Database/test.db");
             db = new DatabaseContext(dbString);
+
             Idea idea = await db.Ideas.FindAsync(id);
             if (idea == null)
             {
@@ -69,7 +70,7 @@ namespace ProjektGrupowy.Controllers
             {
                 string dbString = HttpContext.Server.MapPath("~/Database/test.db");
                 db = new DatabaseContext(dbString);
-
+                
                 db.Ideas.Add(idea);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
