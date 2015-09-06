@@ -12,17 +12,26 @@ namespace CTS
     public class User : Entity
     {
         [Required]
+        [Display(Name = "User name")]
         public string Name { get; set; }
+
         public bool Banned { get; set; }
         [Required]
         public DateTime DateRegistered { get; set; }
+
         [Required]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Email address")]
         public string Email { get; set; }
+
         public bool EmailConfirmed { get; set; }
+
         [Required]
         public string PasswordHash { get; set; }
+
         [Required]
         public string SecurityStamp { get; set; }
+
         [Required]
         public DateTime BirthDate { get; set; }
     }

@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using CTS;
 using DAL;
+using NUnit.Framework.Constraints;
 using ProjektGrupowy.Models;
 
 namespace ProjektGrupowy.Controllers
@@ -22,16 +23,21 @@ namespace ProjektGrupowy.Controllers
         {
             string dbString = HttpContext.Server.MapPath("~/Database/test.db");
             db = new DatabaseContext(dbString);
+
             return View(await db.Ideas.ToListAsync());
+            //return View(await db.Ideas.Where(x => x.Deleted == false ).ToListAsync());
         }
 
         // GET: Ideas/Details/5
         public async Task<ActionResult> Details(long? id)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            string dbString = HttpContext.Server.MapPath("~/Database/test.db");
+            db = new DatabaseContext(dbString);
             Idea idea = await db.Ideas.FindAsync(id);
             if (idea == null)
             {
@@ -51,10 +57,19 @@ namespace ProjektGrupowy.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Deleted,Title,Description,TimePosted,TimeValidated,TimeClosed,Score")] Idea idea)
+        public async Task<ActionResult> Create([Bind(Include = "Title,Description")] Idea idea)
         {
+            idea.Deleted = false;
+            //idea.TimeValidated = null;
+            idea.Score = 1;
+            idea.TimePosted = DateTime.Now;
+
+            
             if (ModelState.IsValid)
             {
+                string dbString = HttpContext.Server.MapPath("~/Database/test.db");
+                db = new DatabaseContext(dbString);
+
                 db.Ideas.Add(idea);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -63,13 +78,24 @@ namespace ProjektGrupowy.Controllers
             return View(idea);
         }
 
+        private List<Tag> parseForTags(string desc)
+        {
+            List<Tag> list = new List<Tag>();
+
+            return list;
+        }
+
         // GET: Ideas/Edit/5
         public async Task<ActionResult> Edit(long? id)
-        {
+        { 
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            string dbString = HttpContext.Server.MapPath("~/Database/test.db");
+            db = new DatabaseContext(dbString);
+
             Idea idea = await db.Ideas.FindAsync(id);
             if (idea == null)
             {
@@ -87,6 +113,9 @@ namespace ProjektGrupowy.Controllers
         {
             if (ModelState.IsValid)
             {
+                string dbString = HttpContext.Server.MapPath("~/Database/test.db");
+                db = new DatabaseContext(dbString);
+
                 db.Entry(idea).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -101,6 +130,9 @@ namespace ProjektGrupowy.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            string dbString = HttpContext.Server.MapPath("~/Database/test.db");
+            db = new DatabaseContext(dbString);
             Idea idea = await db.Ideas.FindAsync(id);
             if (idea == null)
             {
@@ -114,6 +146,9 @@ namespace ProjektGrupowy.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(long id)
         {
+            string dbString = HttpContext.Server.MapPath("~/Database/test.db");
+            db = new DatabaseContext(dbString);
+
             Idea idea = await db.Ideas.FindAsync(id);
             db.Ideas.Remove(idea);
             await db.SaveChangesAsync();
@@ -122,7 +157,7 @@ namespace ProjektGrupowy.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
+            if (disposing && db != null)
             {
                 db.Dispose();
             }
