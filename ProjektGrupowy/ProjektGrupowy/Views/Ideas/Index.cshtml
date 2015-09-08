@@ -1,7 +1,12 @@
-﻿@model IEnumerable<CTS.Idea>
+﻿@*@model IEnumerable<CTS.Idea>*@
+@model PagedList.IPagedList<CTS.Idea>
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Browse ideas";
+
 }
 
 <h2>Browse ideas</h2>
@@ -9,21 +14,30 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+@using (Html.BeginForm("Index", "Ideas", FormMethod.Get))
+{
+    <p>
+        Find idea by title: @Html.TextBox("SearchString", ViewBag.CurrentFilter as String)
+        <input type="submit" value="Search" />
+    </p>
+}
+
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Title)
+            @*@Html.DisplayNameFor(model => model.Title)*@
+            @Html.ActionLink("Title", "Index", new { sortOrder = ViewBag.TitleSortParm })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            @*@Html.DisplayNameFor(model => model.TimePosted)*@
+            @Html.ActionLink("Posted", "Index", new { sortOrder = ViewBag.TimeSortParm })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TimePosted)
+            @*@Html.DisplayNameFor(model => model.Score)*@
+            @Html.ActionLink("Vote score", "Index", new { sortOrder = ViewBag.ScoreSortParm })
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Score)
-        </th>
-        <th></th>
     </tr>
 
 @foreach (var item in Model) {
@@ -32,13 +46,7 @@
             @Html.DisplayFor(modelItem => item.Title)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.TimePosted)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TimeClosed)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Score)
@@ -53,3 +61,9 @@
 }
 
 </table>
+
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

@@ -11,6 +11,7 @@ using CTS;
 using DAL;
 using NUnit.Framework.Constraints;
 using ProjektGrupowy.Models;
+using PagedList;
 
 namespace ProjektGrupowy.Controllers
 {
@@ -19,12 +20,63 @@ namespace ProjektGrupowy.Controllers
         private DatabaseContext db;
 
         // GET: Ideas
-        public async Task<ActionResult> Index()
+        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            ViewBag.CurrentSort = sortOrder;
+            
+            ViewBag.TimeSortParm = String.IsNullOrEmpty(sortOrder) ? "time_desc" : "";
+            ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "title" : "";
+
+            ViewBag.ScoreSortParm = String.IsNullOrEmpty(sortOrder) ? "score_desc" : "";
+
             string dbString = HttpContext.Server.MapPath("~/Database/test.db");
             db = new DatabaseContext(dbString);
 
-            return View(await db.Ideas.ToListAsync());
+            var ideas = from i in db.Ideas.Where(x => x.Deleted == false) select i;
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                ideas = ideas.Where(i => i.Title.Contains(searchString));
+            }
+
+            switch(sortOrder)
+            {
+                case "title":
+                    ideas = ideas.OrderBy(i => i.Title);
+                    break;
+                case "title_desc":
+                    ideas = ideas.OrderByDescending(i => i.Title);
+                    break;
+                case "time":
+                    ideas = ideas.OrderBy(i => i.TimePosted);
+                    break;
+                case "time_desc":
+                    ideas = ideas.OrderByDescending(i => i.TimePosted);
+                    break;
+                case "score":
+                    ideas = ideas.OrderBy(i => i.Score);
+                    break;
+                case "score_desc":
+                default:
+                    ideas = ideas.OrderByDescending(i => i.Score);
+                    break;
+            }
+
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+
+            return View(ideas.ToPagedList(pageNumber, pageSize));
             //return View(await db.Ideas.Where(x => x.Deleted == false ).ToListAsync());
         }
 
