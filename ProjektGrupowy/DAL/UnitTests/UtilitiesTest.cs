@@ -10,9 +10,12 @@ using CTS;
 namespace DAL.UnitTests
 {
     [TestFixture]
-    class UtilitiesTest
+    public class UtilitiesTest
     {
         private string _file;
+        /// <summary>
+        /// Database Creation Test
+        /// </summary>
         [Test]
         public void CreateDatabase()
         {
@@ -26,6 +29,9 @@ namespace DAL.UnitTests
             Assert.That(fi.Length > 0);
         }
 
+        /// <summary>
+        /// Database Validation Test
+        /// </summary>
         [Test]
         public void PopulateDatabase()
         {
@@ -122,7 +128,9 @@ namespace DAL.UnitTests
             Assert.AreEqual(id, dbcontext.Comments.First(x => x.User.Id == user.Id).Parent.User.Id);
             Assert.AreEqual(dbcontext.Tags.First().Name, dbcontext.Ideas.First().Tags.First().Name);
         }
-
+        /// <summary>
+        /// Database Delete Test
+        /// </summary>
         [Test]
         public void DeleteDatabase()
         {
