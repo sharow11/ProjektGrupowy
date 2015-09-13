@@ -203,9 +203,57 @@ namespace ProjektGrupowy.Controllers
             db = new DatabaseContext(dbString);
 
             Idea idea = await db.Ideas.FindAsync(id);
+
             db.Ideas.Remove(idea);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> UpVote(long? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            string dbString = HttpContext.Server.MapPath("~/Database/test.db");
+            db = new DatabaseContext(dbString);
+
+            Idea idea = await db.Ideas.FindAsync(id);
+            if (idea == null)
+            {
+                return HttpNotFound();
+            }
+            idea.Score++;
+
+            db.Entry(idea).State = EntityState.Modified;
+            await db.SaveChangesAsync();
+            //db.SaveChanges();
+            return RedirectToAction("Details", new { id = id });
+
+        }
+
+        public async Task<ActionResult> DownVote(long? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            string dbString = HttpContext.Server.MapPath("~/Database/test.db");
+            db = new DatabaseContext(dbString);
+
+            Idea idea = await db.Ideas.FindAsync(id);
+            if (idea == null)
+            {
+                return HttpNotFound();
+            }
+            idea.Score--;
+            db.Entry(idea).State = EntityState.Modified;
+            await db.SaveChangesAsync();
+            //db.SaveChanges();
+            return RedirectToAction("Details", new { id = id});
+
         }
 
         protected override void Dispose(bool disposing)

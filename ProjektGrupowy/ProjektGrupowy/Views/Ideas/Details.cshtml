@@ -1,41 +1,39 @@
 ﻿@model CTS.Idea
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = Model.Title + " - details";
 }
 
-<h2>Details</h2>
-
 <div>
-    <h4>Idea</h4>
+    <h4>@Html.DisplayFor(model => model.Title)</h4>
+
     <hr />
-    <dl class="dl-horizontal">
+    <div>
+        <div>
+            <button name="buttonUp" value="up" onclick="location.href='@Url.Action("UpVote", "Ideas", new { id = Model.Id })'">Up vote</button>
+            <button name="buttonDown" value="down" onclick="location.href='@Url.Action("DownVote", "Ideas", new { id = Model.Id })'">Down vote</button>
+        </div>
+        <div>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Score)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Score)
+                </dd>
+            </dl>
+        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Score)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Score)
-        </dd>
-
-    </dl>
+    </div>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
