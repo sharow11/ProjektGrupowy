@@ -10,8 +10,22 @@
     <hr />
     <div>
         <div>
-            <button name="buttonUp" value="up" onclick="location.href='@Url.Action("UpVote", "Ideas", new { id = Model.Id })'">Up vote</button>
-            <button name="buttonDown" value="down" onclick="location.href='@Url.Action("DownVote", "Ideas", new { id = Model.Id })'">Down vote</button>
+            <table>
+                <tr>
+                    <td>
+                        <a href='@Url.Action("UpVote", "Ideas", new {id = Model.Id})'>
+                            <img src='@Url.Content("~/Images/up_arrow.png")' alt="Up vote"/>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href='@Url.Action("DownVote", "Ideas", new {id = Model.Id})'>
+                            <img src='@Url.Content("~/Images/down_arrow.png")' alt="Down vote"/>
+                        </a>
+                    </td>
+                </tr>
+            </table>
         </div>
         <div>
             <dl class="dl-horizontal">

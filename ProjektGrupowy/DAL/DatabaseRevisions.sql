@@ -59,7 +59,7 @@ CREATE TABLE Ideas (
     TimePosted datetime NOT NULL,
     TimeValidated datetime,
     TimeClosed datetime,
-	Score int NOT NULL DEFAULT(0),
+	Score int NOT NULL DEFAULT(1),
     FOREIGN KEY (UserId) REFERENCES AspNetUsers (id)
 );
 
@@ -73,7 +73,7 @@ CREATE TABLE Comments (
     IdeaId integer NOT NULL,
     ParentId integer,
 	CommentText Text,
-	Score int NOT NULL DEFAULT 0,
+	Score int NOT NULL DEFAULT 1,
     FOREIGN KEY (ParentId) REFERENCES Comments (id),
     FOREIGN KEY (IdeaId) REFERENCES Ideas (id),
     FOREIGN KEY (UserId) REFERENCES AspNetUsers (id)
