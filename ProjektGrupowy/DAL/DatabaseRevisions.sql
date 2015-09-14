@@ -3,16 +3,50 @@
 -- Last modification date: 2015-07-12 17:31:25.529
 
 -- Table: User
-CREATE TABLE Users (
+CREATE TABLE AspNetUsers (
     Id integer NOT NULL  PRIMARY KEY AUTOINCREMENT,
-    Name varchar NOT NULL,
-    Banned boolean NOT NULL DEFAULT 0,
+    UserName varchar NOT NULL,
+    LockoutEnabled boolean NOT NULL DEFAULT 0,
+	LockoutEndDateUtc datetime,
     DateRegistered datetime NOT NULL,
     Email varchar NOT NULL,
+	AccessFailedCount int NOT NULL DEFAULT 0,
     EmailConfirmed boolean NOT NULL DEFAULT 0,
+	PhoneNumber varchar,
+	PhoneNumberConfirmed boolean,
+	TwoFactorEnabled boolean NOT NULL DEFAULT 0,
     PasswordHash varchar NOT NULL,
     SecurityStamp varchar NOT NULL,
     BirthDate datetime NOT NULL
+);
+
+CREATE TABLE AspNetUserRoles (
+    RoleId integer NOT NULL,
+	UserId integer NOT NULL,
+	PRIMARY KEY (RoleId, UserId),
+    FOREIGN KEY (RoleId) REFERENCES AspNetRoles (id),
+    FOREIGN KEY (UserId) REFERENCES AspNetUsers (id)
+);
+
+CREATE TABLE AspNetUserClaims (
+    Id integer NOT NULL  PRIMARY KEY AUTOINCREMENT,
+	ClaimType varchar,
+	ClaimValue varchar,
+	UserId integer NOT NULL,
+	FOREIGN KEY (UserId) REFERENCES AspNetUsers (id)
+);
+
+CREATE TABLE AspNetUserLogins (
+	LoginProvider varchar,
+	ProviderKey varchar,
+	UserId integer NOT NULL,
+	PRIMARY KEY (UserId),
+	FOREIGN KEY (UserId) REFERENCES AspNetUsers (id)
+);
+
+CREATE TABLE AspNetRoles (
+Id integer NOT NULL  PRIMARY KEY AUTOINCREMENT,
+Name varchar
 );
 
 -- Table: Idea
@@ -26,7 +60,7 @@ CREATE TABLE Ideas (
     TimeValidated datetime,
     TimeClosed datetime,
 	Score int NOT NULL DEFAULT(0),
-    FOREIGN KEY (UserId) REFERENCES Users (id)
+    FOREIGN KEY (UserId) REFERENCES AspNetUsers (id)
 );
 
 -- tables
@@ -39,10 +73,10 @@ CREATE TABLE Comments (
     IdeaId integer NOT NULL,
     ParentId integer,
 	CommentText Text,
-	Score int NOT NULL DEFAULT(0),
+	Score int NOT NULL DEFAULT 0,
     FOREIGN KEY (ParentId) REFERENCES Comments (id),
     FOREIGN KEY (IdeaId) REFERENCES Ideas (id),
-    FOREIGN KEY (UserId) REFERENCES Users (id)
+    FOREIGN KEY (UserId) REFERENCES AspNetUsers (id)
 );
 
 -- Table: Tag
@@ -52,7 +86,7 @@ CREATE TABLE Tags (
     TimeCreated datetime NOT NULL,
     Deleted boolean NOT NULL,
     CreatorId integer NOT NULL,
-    FOREIGN KEY (CreatorId) REFERENCES Users (id)
+    FOREIGN KEY (CreatorId) REFERENCES AspNetUsers (id)
 );
 
 -- Table: Idea_is_Tagged

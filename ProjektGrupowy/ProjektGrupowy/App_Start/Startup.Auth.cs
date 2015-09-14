@@ -7,6 +7,7 @@ using Microsoft.Owin.Security.DataProtection;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using System;
+using CTS;
 using ProjektGrupowy.Models;
 
 namespace ProjektGrupowy
@@ -29,9 +30,12 @@ namespace ProjektGrupowy
                 LoginPath = new PathString("/Account/Login"),
                 Provider = new CookieAuthenticationProvider
                 {
-                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
-                        validateInterval: TimeSpan.FromMinutes(30),
-                        regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
+                    OnValidateIdentity = SecurityStampValidator
+                        .OnValidateIdentity<ApplicationUserManager, AspNetUser, Int64>(
+                            validateInterval: TimeSpan.FromMinutes(30),
+                            regenerateIdentityCallback: (manager, user) =>
+                                user.GenerateUserIdentityAsync(manager),
+                            getUserIdCallback: (id) => (id.GetUserId<Int64>()))
                 }
             });
             

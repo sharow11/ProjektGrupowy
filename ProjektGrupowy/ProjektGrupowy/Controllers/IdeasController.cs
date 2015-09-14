@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using CTS;
 using DAL;
+using Microsoft.AspNet.Identity;
 using NUnit.Framework.Constraints;
 using ProjektGrupowy.Models;
 using PagedList;
@@ -114,15 +115,15 @@ namespace ProjektGrupowy.Controllers
         {
             idea.Deleted = false;
             //idea.TimeValidated = null;
+            string dbString = HttpContext.Server.MapPath("~/Database/test.db");
+            db = new DatabaseContext(dbString);
             idea.Score = 1;
             idea.TimePosted = DateTime.Now;
+            idea.AspNetUser = db.AspNetUsers.First(x => x.UserName == User.Identity.Name);
 
             
             if (ModelState.IsValid)
-            {
-                string dbString = HttpContext.Server.MapPath("~/Database/test.db");
-                db = new DatabaseContext(dbString);
-                
+            {                
                 db.Ideas.Add(idea);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

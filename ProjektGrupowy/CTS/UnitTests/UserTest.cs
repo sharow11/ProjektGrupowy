@@ -14,9 +14,9 @@ namespace CTS.UnitTests
 
         public void Test(string name)
         {
-            var user = new User();
-            user.Name = name;
-            Assert.That(String.Equals(user.Name, name));
+            var user = new AspNetUser();
+            user.UserName = name;
+            Assert.That(String.Equals(user.UserName, name));
         }
     }
 }

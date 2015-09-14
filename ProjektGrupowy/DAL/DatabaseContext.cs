@@ -12,7 +12,7 @@ namespace DAL
 {
     public class DatabaseContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
+        public DbSet<AspNetUser> AspNetUsers { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Idea> Ideas { get; set; }
         public DbSet<Tag> Tags { get; set; }
@@ -25,11 +25,15 @@ namespace DAL
         }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Idea>().HasRequired(a => a.User).WithMany().Map(x => x.MapKey("UserId"));
-            modelBuilder.Entity<Comment>().HasRequired(a => a.User).WithMany().Map(x => x.MapKey("UserId"));
+            modelBuilder.Entity<AspNeRole>().HasKey(x => x.Id);
+            modelBuilder.Entity<AspNeUserClaim>().HasKey(x => x.Id);
+            modelBuilder.Entity<AspNeUserLogin>().HasKey(x => x.UserId);
+            modelBuilder.Entity<AspNeUserRole>().HasKey(x => new {x.RoleId, x.UserId});
+            modelBuilder.Entity<Idea>().HasRequired(a => a.AspNetUser).WithMany().Map(x => x.MapKey("UserId"));
+            modelBuilder.Entity<Comment>().HasRequired(a => a.AspNetUser).WithMany().Map(x => x.MapKey("UserId"));
             modelBuilder.Entity<Comment>().HasRequired(a => a.Idea).WithMany().Map(x => x.MapKey("IdeaId"));
             modelBuilder.Entity<Comment>().HasOptional(a => a.Parent).WithMany().Map(x => x.MapKey("ParentId"));
-            modelBuilder.Entity<Tag>().HasRequired(a => a.User).WithMany().Map(x => x.MapKey("CreatorId"));
+            modelBuilder.Entity<Tag>().HasRequired(a => a.AspNetUser).WithMany().Map(x => x.MapKey("CreatorId"));
             modelBuilder.Entity<Idea>()
             .HasMany<Tag>(s => s.Tags)
             .WithMany(c => c.Ideas)

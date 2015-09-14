@@ -6,7 +6,7 @@ namespace CTS
     {
         public DateTime TimePosted { get; set; }
         public bool Deleted { get; set; }
-        public User User { get; set; }
+        public AspNetUser AspNetUser { get; set; }
         public Idea Idea { get; set; }
         public Comment Parent { get; set; }
         public int Score { get; set; }

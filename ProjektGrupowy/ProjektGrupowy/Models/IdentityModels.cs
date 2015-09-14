@@ -1,34 +1,49 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Data.SQLite;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web.Hosting;
+using CTS;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ProjektGrupowy.Models
 {
-    // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
-    public class ApplicationUser : IdentityUser
+    public class ApplicationDbContext : IdentityDbContext<AspNetUser, AspNeRole,
+    Int64, AspNeUserLogin, AspNeUserRole, AspNeUserClaim>
     {
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
-        {
-            // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
-            var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
-            // Add custom user claims here
-            return userIdentity;
-        }
-    }
-
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
-    {
-        public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
-        {
+        public ApplicationDbContext(string filename)
+            : base(new SQLiteConnection()
+            {
+                ConnectionString =
+            new SQLiteConnectionStringBuilder()
+                { DataSource = filename, ForeignKeys = true }
+            .ConnectionString }, true)
+        {        
         }
 
         public static ApplicationDbContext Create()
         {
-            return new ApplicationDbContext();
+            return new ApplicationDbContext(HostingEnvironment.MapPath("~/Database/test.db"));
         }
 
         public System.Data.Entity.DbSet<CTS.Idea> Ideas { get; set; }
     }
+
+    public class CustomUserStore : UserStore<AspNetUser, AspNeRole, Int64,
+        AspNeUserLogin, AspNeUserRole, AspNeUserClaim>
+    {
+        public CustomUserStore(ApplicationDbContext context)
+            : base(context)
+        {
+        }
+    }
+
+    public class CustomRoleStore : RoleStore<AspNeRole, Int64, AspNeUserRole>
+    {
+        public CustomRoleStore(ApplicationDbContext context)
+            : base(context)
+        {
+        }
+    } 
 }

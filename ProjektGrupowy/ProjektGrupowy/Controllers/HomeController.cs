@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using CTS;
 using DAL;
@@ -17,7 +17,8 @@ namespace ProjektGrupowy.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            string path = Directory.GetCurrentDirectory();
+            ViewBag.Message = "Your application description page. " + path;
 
             return View();
         }
@@ -27,10 +28,10 @@ namespace ProjektGrupowy.Controllers
             ViewBag.Message = "Your contact page.";
             string db = HttpContext.Server.MapPath("~/Database/test.db");
             var dbcontext = new DatabaseContext(db);
-            var user = dbcontext.Users.Where(x => x.Name == "a").ToList();
+            var user = dbcontext.AspNetUsers.Where(x => x.UserName == "a").ToList();
 
             ViewBag.Users = user;
-            ViewBag.Comments = dbcontext.Comments.Include("User").Include("Parent").ToList();
+            ViewBag.Comments = dbcontext.Comments.Include("AspNetUser").Include("Parent").ToList();
 
             return View();
         }

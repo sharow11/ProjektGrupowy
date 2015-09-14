@@ -9,7 +9,7 @@ namespace CTS
     public class Tag : Entity
     {
         public string Name { get; set; }
-        public User User { get; set; }
+        public AspNetUser AspNetUser { get; set; }
         public DateTime TimeCreated { get; set; }
         public bool Deleted { get; set; }
         public virtual ICollection<Idea> Ideas { get; set; }

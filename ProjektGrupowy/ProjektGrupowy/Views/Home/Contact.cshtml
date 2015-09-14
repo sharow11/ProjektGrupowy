@@ -18,16 +18,16 @@
     <table>
         <thead>
         <tr>
-            <th>Name</th>
+            <th>UserName</th>
             <th>Email</th>
             <th>Date Registered</th>
         </tr>
         </thead>
-        @foreach (User user in ViewBag.Users)
+        @foreach (AspNetUser user in ViewBag.Users)
         {
             <tr>
                 <td>
-                    @user.Name
+                    @user.UserName
                 </td>
                 <td>
                     @user.Email
@@ -50,7 +50,7 @@
             if (comment.Parent == null)
             {
                 <tr>
-                    <td>@comment.User.Name</td>
+                    <td>@comment.AspNetUser.UserName</td>
                     <td>@comment.CommentText</td>
                 </tr>
                 foreach (Comment child in ViewBag.Comments)
@@ -58,7 +58,7 @@
                     if (child.Parent != null && child.Parent.Id == comment.Id)
                     {
                         <tr>
-                            <td style="background-color: gray">@child.User.Name</td>
+                            <td style="background-color: gray">@child.AspNetUser.UserName</td>
                             <td style="background-color: gray">@child.CommentText</td>
                         </tr>
                     }

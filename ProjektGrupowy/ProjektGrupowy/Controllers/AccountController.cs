@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using CTS;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -90,7 +91,7 @@ namespace ProjektGrupowy.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+                var user = new AspNetUser() { UserName = model.Email, Email = model.Email };
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -117,7 +118,7 @@ namespace ProjektGrupowy.Controllers
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
-        public async Task<ActionResult> ConfirmEmail(string userId, string code)
+        public async Task<ActionResult> ConfirmEmail(Int64 userId, string code)
         {
             if (userId == null || code == null) 
             {
@@ -238,10 +239,10 @@ namespace ProjektGrupowy.Controllers
         public async Task<ActionResult> Disassociate(string loginProvider, string providerKey)
         {
             ManageMessageId? message = null;
-            IdentityResult result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
+            IdentityResult result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId<Int64>(), new UserLoginInfo(loginProvider, providerKey));
             if (result.Succeeded)
             {
-                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId<Int64>());
                 await SignInAsync(user, isPersistent: false);
                 message = ManageMessageId.RemoveLoginSuccess;
             }
@@ -280,10 +281,10 @@ namespace ProjektGrupowy.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+                    IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId<Int64>(), model.OldPassword, model.NewPassword);
                     if (result.Succeeded)
                     {
-                        var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                        var user = await UserManager.FindByIdAsync(User.Identity.GetUserId<Int64>());
                         await SignInAsync(user, isPersistent: false);
                         return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
                     }
@@ -304,7 +305,7 @@ namespace ProjektGrupowy.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+                    IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId<Int64>(), model.NewPassword);
                     if (result.Succeeded)
                     {
                         return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
@@ -377,7 +378,7 @@ namespace ProjektGrupowy.Controllers
             {
                 return RedirectToAction("Manage", new { Message = ManageMessageId.Error });
             }
-            IdentityResult result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
+            IdentityResult result = await UserManager.AddLoginAsync(User.Identity.GetUserId<Int64>(), loginInfo.Login);
             if (result.Succeeded)
             {
                 return RedirectToAction("Manage");
@@ -405,7 +406,7 @@ namespace ProjektGrupowy.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+                var user = new AspNetUser() { UserName = model.Email, Email = model.Email };
                 IdentityResult result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -451,7 +452,7 @@ namespace ProjektGrupowy.Controllers
         [ChildActionOnly]
         public ActionResult RemoveAccountList()
         {
-            var linkedAccounts = UserManager.GetLogins(User.Identity.GetUserId());
+            var linkedAccounts = UserManager.GetLogins(User.Identity.GetUserId<Int64>());
             ViewBag.ShowRemoveButton = HasPassword() || linkedAccounts.Count > 1;
             return (ActionResult)PartialView("_RemoveAccountPartial", linkedAccounts);
         }
@@ -478,7 +479,7 @@ namespace ProjektGrupowy.Controllers
             }
         }
 
-        private async Task SignInAsync(ApplicationUser user, bool isPersistent)
+        private async Task SignInAsync(AspNetUser user, bool isPersistent)
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
             AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, await user.GenerateUserIdentityAsync(UserManager));
@@ -494,7 +495,7 @@ namespace ProjektGrupowy.Controllers
 
         private bool HasPassword()
         {
-            var user = UserManager.FindById(User.Identity.GetUserId());
+            var user = UserManager.FindById(User.Identity.GetUserId<Int64>());
             if (user != null)
             {
                 return user.PasswordHash != null;

@@ -46,9 +46,9 @@ namespace DAL.UnitTests
 
             DatabaseContext dbcontext = new DatabaseContext(fi.Name);
 
-            dbcontext.Users.Add(new User()
+            dbcontext.AspNetUsers.Add(new AspNetUser()
             {
-                Name = "a",
+                UserName = "a",
                 BirthDate = DateTime.Now,
                 DateRegistered = DateTime.Now,
                 Email = "asdf",
@@ -56,24 +56,24 @@ namespace DAL.UnitTests
                 SecurityStamp = "aaa"
             });
             dbcontext.SaveChanges();
-            User user = new User()
+            AspNetUser aspNetUser = new AspNetUser()
             {
-                Name = "b",
+                UserName = "b",
                 BirthDate = DateTime.Now,
                 DateRegistered = DateTime.Now,
                 Email = "asdf",
                 PasswordHash = "aaa",
                 SecurityStamp = "aaa"
             };
-            User usr = new User()
+            AspNetUser usr = new AspNetUser()
             {
-                Name = "a",
+                UserName = "a",
                 BirthDate = DateTime.Now,
                 DateRegistered = DateTime.Now,
                 Email = "asdf111",
                 PasswordHash = "aaa111",
                 SecurityStamp = "aaa111",
-                Banned = true
+                LockoutEnabled = true
             };
 
             Idea idea = new Idea()
@@ -84,10 +84,10 @@ namespace DAL.UnitTests
                 TimePosted = DateTime.Now,
                 TimeValidated = DateTime.Now,
                 Title = "qwer",
-                User = usr
+                AspNetUser = usr
             };
-            dbcontext.Users.Add(usr);
-            dbcontext.Users.Add(user);
+            dbcontext.AspNetUsers.Add(usr);
+            dbcontext.AspNetUsers.Add(aspNetUser);
             dbcontext.SaveChanges();
             dbcontext.Ideas.Add(idea);
             dbcontext.SaveChanges();
@@ -96,7 +96,7 @@ namespace DAL.UnitTests
             {
                 Name = "Porn",
                 Ideas = new List<Idea>() {idea},
-                User = usr
+                AspNetUser = usr
             };
             idea.Tags = new List<Tag>(){tag};
             dbcontext.Tags.Add(tag);
@@ -107,7 +107,7 @@ namespace DAL.UnitTests
                 Deleted = false,
                 Idea = idea,
                 TimePosted = DateTime.Now,
-                User = usr,
+                AspNetUser = usr,
                 CommentText = "Lorem Ipsum"
             };
             Comment comment2 = new Comment()
@@ -115,7 +115,7 @@ namespace DAL.UnitTests
                 Deleted = false,
                 Idea = idea,
                 TimePosted = DateTime.Now,
-                User = user,
+                AspNetUser = aspNetUser,
                 Parent = comment,
                 CommentText = "QWERTY"
             };
@@ -123,9 +123,9 @@ namespace DAL.UnitTests
             dbcontext.Comments.Add(comment2);
             dbcontext.SaveChanges();
 
-            var id = dbcontext.Users.First(x => x.Banned == true).Id;
-            Assert.AreEqual(id, dbcontext.Ideas.First().User.Id);
-            Assert.AreEqual(id, dbcontext.Comments.First(x => x.User.Id == user.Id).Parent.User.Id);
+            var id = dbcontext.AspNetUsers.First(x => x.LockoutEnabled).Id;
+            Assert.AreEqual(id, dbcontext.Ideas.First().AspNetUser.Id);
+            Assert.AreEqual(id, dbcontext.Comments.First(x => x.AspNetUser.Id == aspNetUser.Id).Parent.AspNetUser.Id);
             Assert.AreEqual(dbcontext.Tags.First().Name, dbcontext.Ideas.First().Tags.First().Name);
         }
         /// <summary>
