@@ -1,12 +1,14 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color: #5E6E8E;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    background-color: #BDC8DE;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
@@ -14,4 +16,80 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+h2 {
+    font-size: 50px;
+    font-weight: 700;
+    text-align: center;
+    color: #010817;
+    font-family: Equestria;
+}
+
+p {
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    color: #0C2555;
+    font-family: Neuropol;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+options {
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    color: #0C2555;
+    font-family: Neuropol;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.idea-list {
+    float: left;
+    width: 285px;
+    height: 600px;
+}
+
+.idea-img {
+    display: block;
+    max-width:275px;
+    max-height:70%;
+    width: auto;
+    height: auto;
+}
+
+@font-face {
+    font-family: Glyphicons;
+    src: url("../fonts/glyphicons-halflings-regular.ttf");
+}
+
+@font-face {
+    font-family: Equestria;
+    src: url("../fonts/Equestria.otf");
+}
+
+@font-face {
+    font-family: Neuropol;
+    src: url("../fonts/Neuropol.ttf");
+}
+
+.idea-list-txt{
+    max-height:20%;
+}
+.idea-list-title{
+    font-size: 30px;
+    font-weight: 600;
+    text-align: center;
+    color: #010817;
+    font-family: Equestria;
+}
+
+.idea-list-data{
+    font-size: 12px;
+    font-weight: 400;
+    text-align: center;
+    color: #0C2555;
+    font-family: Neuropol;
 }

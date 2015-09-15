@@ -23,47 +23,83 @@
     </p>
 }
 
-
-<table class="table">
-    <tr>
-        <th>
-            @*@Html.DisplayNameFor(model => model.Title)*@
-            @Html.ActionLink("Title", "Index", new { sortOrder = ViewBag.TitleSortParm })
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.TimePosted)*@
-            @Html.ActionLink("Posted", "Index", new { sortOrder = ViewBag.TimeSortParm })
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.Score)*@
-            @Html.ActionLink("Vote score", "Index", new { sortOrder = ViewBag.ScoreSortParm })
-        </th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TimePosted)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Score)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new {id = item.Id}) |
-            @Html.ActionLink("Details", "Details", new {id = item.Id}) |
-            @Html.ActionLink("Delete", "Delete", new {id = item.Id})
-        </td>
-    
-    </tr>
-}
-
-</table>
+<center>
+    <table>
+        <tr>
+            <td>
+                <p>
+                    Sort by:
+                </p>
+            </td>
+            <td>
+                <p>
+                    @*@Html.DisplayNameFor(model => model.Title)*@
+                    @Html.ActionLink("Title", "Index", new { sortOrder = ViewBag.TitleSortParm })
+                </p>
+            </td>
+            <td>
+                <p>
+                    @*@Html.DisplayNameFor(model => model.TimePosted)*@
+                    @Html.ActionLink("Posted", "Index", new { sortOrder = ViewBag.TimeSortParm })
+                </p>
+            </td>
+            <td>
+                <p>
+                    @*@Html.DisplayNameFor(model => model.Score)*@
+                    @Html.ActionLink("Vote score", "Index", new { sortOrder = ViewBag.ScoreSortParm })
+                </p>
+            </td>
+        </tr>
+    </table>
+</center>
 
 <br />
+@foreach (var item in Model)
+{
+    <div class="idea-list">
+        <div class="idea-list-txt">
+            <div class="idea-list-title">@Html.DisplayFor(modelItem => item.Title)</div>
+            <br />
+            <div class="idea-list-data">
+                @Html.DisplayFor(modelItem => item.TimePosted)
+                <br /><b>Score:</b>
+                @Html.DisplayFor(modelItem => item.Score)
+            </div>
+        </div>
+        <br />
+        <center>
+            <a href='@Url.Action("Details", new { id = item.Id })'>
+                <img class="idea-img" src='@Url.Content("http://www.famativity.com/wp-content/uploads/2013/10/light-bulb-1.jpg")' />
+            </a>
+        </center>
+        <br />
+        <center>
+            <table>
+                <tr>
+                    <td>
+                        <options>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                        </options>
+                    </td>
+                    <td>
+                        <options>
+                            @Html.ActionLink("Details", "Details", new { id = item.Id })
+                        </options>
+                    </td>
+                    <td>
+                        <options>
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        </options>
+                    </td>
+                </tr>
+            </table>
+        </center>
+    </div>
+}
+<div style="clear: both">
+    <br /><br />
+</div>
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
 @Html.PagedListPager(Model, page => Url.Action("Index",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
