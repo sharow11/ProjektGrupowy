@@ -5,30 +5,43 @@
 }
 
 <div>
-    <h4>@Html.DisplayFor(model => model.Title)</h4>
+    <h2>@Html.DisplayFor(model => model.Title)</h2>
 
     <hr />
     <div>
+        <div><center>
+    <button name="buttonUp" value="up" onclick="location.href='@Url.Action("UpVote", "Ideas", new { id = Model.Id })'">Up vote</button>
+    <button name="buttonDown" value="down" onclick="location.href='@Url.Action("DownVote", "Ideas", new { id = Model.Id })'">Down vote</button>
+</center></div>
         <div>
-            <button name="buttonUp" value="up" onclick="location.href='@Url.Action("UpVote", "Ideas", new { id = Model.Id })'">Up vote</button>
-            <button name="buttonDown" value="down" onclick="location.href='@Url.Action("DownVote", "Ideas", new { id = Model.Id })'">Down vote</button>
-        </div>
-        <div>
+            <img class="idea-img" src='@Url.Content("http://www.famativity.com/wp-content/uploads/2013/10/light-bulb-1.jpg")' style="float:right" />
             <dl class="dl-horizontal">
                 <dt>
-                    @Html.DisplayNameFor(model => model.Description)
+                    <p>
+                        <b>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </b>
+                    </p>
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Description)
+                    <p>
+                        @Html.DisplayFor(model => model.Description)
+                    </p>
                 </dd>
 
                 <dt>
-                    @Html.DisplayNameFor(model => model.Score)
+                    <p>
+                        <b>
+                            @Html.DisplayNameFor(model => model.Score)
+                        </b>
+                    </p>
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Score)
+                    <p>
+                        @Html.DisplayFor(model => model.Score)
+                    </p>
                 </dd>
             </dl>
         </div>
