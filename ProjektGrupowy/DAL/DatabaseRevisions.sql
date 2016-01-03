@@ -15,9 +15,9 @@ CREATE TABLE AspNetUsers (
 	PhoneNumber varchar,
 	PhoneNumberConfirmed boolean,
 	TwoFactorEnabled boolean NOT NULL DEFAULT 0,
-    PasswordHash varchar NOT NULL,
-    SecurityStamp varchar NOT NULL,
-    BirthDate datetime NOT NULL
+    PasswordHash varchar NULL,
+    SecurityStamp varchar NULL,
+    BirthDate datetime NULL
 );
 
 CREATE TABLE AspNetUserRoles (

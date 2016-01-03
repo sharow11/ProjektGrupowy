@@ -50,9 +50,9 @@ namespace ProjektGrupowy
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "1199814466714935",
+               appSecret: "80112789f5b53aacf72ff95577c01754");
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{

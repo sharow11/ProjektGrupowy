@@ -8,11 +8,12 @@ using DAL;
 
 namespace ProjektGrupowy.Controllers
 {
+    [RequireHttps]
     public class HomeController : Controller
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToActionPermanent("Index", "Ideas");
         }
 
         public ActionResult About()

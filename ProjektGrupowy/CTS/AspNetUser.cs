@@ -18,7 +18,6 @@ namespace CTS
         [Required]
         public DateTime DateRegistered { get; set; }
 
-        [Required]
         public DateTime BirthDate { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<AspNetUser, Int64> manager)
