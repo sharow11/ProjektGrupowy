@@ -10,10 +10,18 @@
 }
 
 <h2>Browse ideas</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@if (User.Identity.IsAuthenticated)
+{ 
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+}
+else
+{
+    <p>
+        @Html.ActionLink("Log in to create new ideas", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+    </p>
+}
 
 @using (Html.BeginForm("Index", "Ideas", FormMethod.Get))
 {
@@ -69,7 +77,7 @@
         <br />
         <center>
             <a href='@Url.Action("Details", new { id = item.Id })'>
-                <img class="idea-img" src='@Url.Content("http://www.famativity.com/wp-content/uploads/2013/10/light-bulb-1.jpg")' />
+                <img class="idea-img" src='@Url.Content("http://iconizer.net/files/Impressions_General_Icons/orig/bulb.png")' />
             </a>
         </center>
         <br />
@@ -78,7 +86,10 @@
                 <tr>
                     <td>
                         <options>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                            @if (User.Identity.IsAuthenticated && item.AspNetUser != null && User.Identity.Name == item.AspNetUser.UserName)
+                            {
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                            }
                         </options>
                     </td>
                     <td>
@@ -88,7 +99,10 @@
                     </td>
                     <td>
                         <options>
-                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                            @if (User.Identity.IsAuthenticated && item.AspNetUser != null &&  User.Identity.Name == item.AspNetUser.UserName)
+                            {
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                            }
                         </options>
                     </td>
                 </tr>

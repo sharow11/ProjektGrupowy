@@ -113,23 +113,34 @@ namespace ProjektGrupowy.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Title,Description")] Idea idea)
         {
-            idea.Deleted = false;
-            //idea.TimeValidated = null;
-            string dbString = HttpContext.Server.MapPath("~/Database/test.db");
-            db = new DatabaseContext(dbString);
-            idea.Score = 1;
-            idea.TimePosted = DateTime.Now;
-            idea.AspNetUser = db.AspNetUsers.First(x => x.UserName == User.Identity.Name);
+            if (User.Identity.IsAuthenticated)
+            {
+                idea.Deleted = false;
+                //idea.TimeValidated = null;
+                string dbString = HttpContext.Server.MapPath("~/Database/test.db");
+                db = new DatabaseContext(dbString);
+                idea.Score = 1;
+                idea.TimePosted = DateTime.Now;
+                AspNetUser usr = db.AspNetUsers.First(x => x.UserName == User.Identity.Name);
+                if (usr != null)
+                {
+                    idea.AspNetUser = usr;
+                }
+                else
+                {
+                    return null;
+                }
 
-            
-            if (ModelState.IsValid)
-            {                
-                db.Ideas.Add(idea);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Ideas.Add(idea);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+
+                return View(idea);
             }
-
-            return View(idea);
+            return null;
         }
 
         private List<Tag> parseForTags(string desc)
