@@ -16,6 +16,7 @@ namespace DAL
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Idea> Ideas { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<Vote> Votes { get; set; }
 
         public DatabaseContext(string filename) : base(new SQLiteConnection() { ConnectionString =
             new SQLiteConnectionStringBuilder()
@@ -31,6 +32,8 @@ namespace DAL
             modelBuilder.Entity<AspNeUserRole>().HasKey(x => new {x.RoleId, x.UserId});
             modelBuilder.Entity<Idea>().HasRequired(a => a.AspNetUser).WithMany().Map(x => x.MapKey("UserId"));
             modelBuilder.Entity<Comment>().HasRequired(a => a.AspNetUser).WithMany().Map(x => x.MapKey("UserId"));
+            modelBuilder.Entity<Vote>().HasRequired(a => a.AspNetUser).WithMany().Map(x => x.MapKey("UserId"));
+            modelBuilder.Entity<Vote>().HasRequired(a => a.Idea).WithMany().Map(x => x.MapKey("IdeaId"));
             modelBuilder.Entity<Comment>().HasRequired(a => a.Idea).WithMany().Map(x => x.MapKey("IdeaId"));
             modelBuilder.Entity<Comment>().HasOptional(a => a.Parent).WithMany().Map(x => x.MapKey("ParentId"));
             modelBuilder.Entity<Tag>().HasRequired(a => a.AspNetUser).WithMany().Map(x => x.MapKey("CreatorId"));

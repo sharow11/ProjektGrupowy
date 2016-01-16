@@ -81,7 +81,7 @@ CREATE TABLE Comments (
 
 -- Table: Tag
 CREATE TABLE Tags (
-    Id integer NOT NULL  PRIMARY KEY AUTOINCREMENT,
+    Id integer NOT NULL PRIMARY KEY AUTOINCREMENT,
     Name varchar NOT NULL,
     TimeCreated datetime NOT NULL,
     Deleted boolean NOT NULL,
@@ -97,5 +97,16 @@ CREATE TABLE IdeaTags (
     FOREIGN KEY (IdeaId) REFERENCES Ideas (id),
     FOREIGN KEY (TagId) REFERENCES Tags (id)
 );
--- End of file.
+----------------------------[/REV 1]---------------------------------
+
+----------------------------[REV 2]---------------------------------
+CREATE TABLE Votes (
+    Id integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+	IdeaId int NOT NULL,
+	UserId integer NOT NULL,
+	VoteValue int NOT NULL DEFAULT(1),
+    FOREIGN KEY (IdeaId) REFERENCES Ideas (id),
+    FOREIGN KEY (UserId) REFERENCES AspNetUsers (id)
+);
+----------------------------[/REV 2]---------------------------------
 

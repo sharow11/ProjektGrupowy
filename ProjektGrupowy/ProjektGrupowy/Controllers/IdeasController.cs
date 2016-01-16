@@ -204,7 +204,25 @@ namespace ProjektGrupowy.Controllers
             db = new DatabaseContext(dbString);
 
             Idea idea = await db.Ideas.FindAsync(id);
-
+            var comments = db.Comments.Where(x => x.Idea.Id == idea.Id).ToList();
+            foreach (var comment in comments)
+            {
+                db.Comments.Remove(comment);
+            }
+            var votes = db.Votes.Where(x => x.Idea.Id == idea.Id).ToList();
+            foreach (var vote in votes)
+            {
+                db.Votes.Remove(vote);
+            }
+            var tags = db.Tags.ToList();
+            foreach (var tag in tags)
+            {
+                tag.Ideas.Remove(idea);
+                db.Tags.Attach(tag);
+                var entry = db.Entry(tag);
+                entry.Collection(e => e.Ideas).CurrentValue = tag.Ideas;
+                await db.SaveChangesAsync();
+            }
             db.Ideas.Remove(idea);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
