@@ -33,7 +33,7 @@ namespace ProjektGrupowy.Controllers
             string dbString = HttpContext.Server.MapPath("~/Database/test.db");
             db = new DatabaseContext(dbString);
 
-            var ideas = from i in db.Ideas.Where(x => x.Deleted == false) select i;
+            var ideas = from i in db.Ideas.Include(x => x.AspNetUser).Where(x => x.Deleted == false) select i;
 
             if (searchString != null)
             {
@@ -92,7 +92,7 @@ namespace ProjektGrupowy.Controllers
             string dbString = HttpContext.Server.MapPath("~/Database/test.db");
             db = new DatabaseContext(dbString);
 
-            Idea idea = await db.Ideas.FindAsync(id);
+            Idea idea = db.Ideas.Include(x => x.AspNetUser).First(x => x.Id == id);
             if (idea == null)
             {
                 return HttpNotFound();
