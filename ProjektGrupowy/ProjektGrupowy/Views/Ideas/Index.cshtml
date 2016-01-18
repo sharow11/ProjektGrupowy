@@ -1,6 +1,8 @@
 ﻿@*@model IEnumerable<CTS.Idea>*@
 @model PagedList.IPagedList<CTS.Idea>
+@using Microsoft.Ajax.Utilities
 @using PagedList.Mvc;
+@using ProjektGrupowy.ExtensionMethods
 
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
@@ -70,6 +72,8 @@ else
             <br />
             <div class="idea-list-data">
                 @Html.DisplayFor(modelItem => item.TimePosted)
+                <br/><b>Desctiption</b>
+                @Html.DisplayFor(modelItem => item.Description.Truncate(100))
                 <br /><b>Score:</b>
                 @Html.DisplayFor(modelItem => item.Score)
             </div>
