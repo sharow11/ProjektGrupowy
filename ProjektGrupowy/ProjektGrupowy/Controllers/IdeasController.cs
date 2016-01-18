@@ -122,6 +122,10 @@ namespace ProjektGrupowy.Controllers
                 idea.Score = 1;
                 idea.TimePosted = DateTime.Now;
                 AspNetUser usr = db.AspNetUsers.First(x => x.UserName == User.Identity.Name);
+                Vote vote = new Vote();
+                vote.VoteValue = 1;
+                vote.AspNetUser = usr;
+                vote.Idea = idea;
                 if (usr != null)
                 {
                     idea.AspNetUser = usr;
@@ -134,6 +138,7 @@ namespace ProjektGrupowy.Controllers
                 if (ModelState.IsValid)
                 {
                     db.Ideas.Add(idea);
+                    db.Votes.Add(vote);
                     await db.SaveChangesAsync();
                     return RedirectToAction("Index");
                 }
@@ -254,10 +259,35 @@ namespace ProjektGrupowy.Controllers
             {
                 return HttpNotFound();
             }
-            idea.Score++;
 
-            db.Entry(idea).State = EntityState.Modified;
-            await db.SaveChangesAsync();
+            AspNetUser usr = db.AspNetUsers.First(x => x.UserName == User.Identity.Name);
+            if (User.Identity.IsAuthenticated && !db.Votes.Any(x => x.AspNetUser.Id == usr.Id && x.Idea.Id == id))
+            {
+                Vote vote = new Vote();
+                vote.VoteValue = 1;
+                vote.AspNetUser = usr;
+                vote.Idea = idea;
+                if (ModelState.IsValid)
+                {
+                    db.Votes.Add(vote);
+                    await db.SaveChangesAsync();
+                }
+                idea.Score++; 
+                db.Entry(idea).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+            }
+            else if(User.Identity.IsAuthenticated && db.Votes.Any(x => x.AspNetUser.Id == usr.Id && x.Idea.Id == id && x.VoteValue == -1))
+            {
+                Vote vote = db.Votes.First(x => x.AspNetUser.Id == usr.Id && x.Idea.Id == id && x.VoteValue == -1);
+                if (ModelState.IsValid)
+                {
+                    db.Votes.Remove(vote);
+                    await db.SaveChangesAsync();
+                }
+                idea.Score++; 
+                db.Entry(idea).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+            }
             //db.SaveChanges();
             return RedirectToAction("Details", new { id = id });
 
@@ -278,9 +308,35 @@ namespace ProjektGrupowy.Controllers
             {
                 return HttpNotFound();
             }
-            idea.Score--;
-            db.Entry(idea).State = EntityState.Modified;
-            await db.SaveChangesAsync();
+
+            AspNetUser usr = db.AspNetUsers.First(x => x.UserName == User.Identity.Name);
+            if (User.Identity.IsAuthenticated && !db.Votes.Any(x => x.AspNetUser.Id == usr.Id && x.Idea.Id == id))
+            {
+                Vote vote = new Vote();
+                vote.VoteValue = -1;
+                vote.AspNetUser = usr;
+                vote.Idea = idea;
+                if (ModelState.IsValid)
+                {
+                    db.Votes.Add(vote);
+                    await db.SaveChangesAsync();
+                }
+                idea.Score--;
+                db.Entry(idea).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+            }
+            else if (User.Identity.IsAuthenticated && db.Votes.Any(x => x.AspNetUser.Id == usr.Id && x.Idea.Id == id && x.VoteValue == +1))
+            {
+                Vote vote = db.Votes.First(x => x.AspNetUser.Id == usr.Id && x.Idea.Id == id && x.VoteValue == +1);
+                if (ModelState.IsValid)
+                {
+                    db.Votes.Remove(vote);
+                    await db.SaveChangesAsync();
+                }
+                idea.Score--;
+                db.Entry(idea).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+            }
             //db.SaveChanges();
             return RedirectToAction("Details", new { id = id});
 
