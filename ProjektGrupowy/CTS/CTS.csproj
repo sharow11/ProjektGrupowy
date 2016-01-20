@@ -63,6 +63,7 @@
     <Compile Include="Tag.cs" />
     <Compile Include="UnitTests\UserTest.cs" />
     <Compile Include="AspNetUser.cs" />
+    <Compile Include="UserNote.cs" />
     <Compile Include="Vote.cs" />
   </ItemGroup>
   <ItemGroup>
