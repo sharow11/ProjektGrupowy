@@ -110,3 +110,18 @@ CREATE TABLE Votes (
 );
 ----------------------------[/REV 2]---------------------------------
 
+----------------------------[REV 3]----------------------------------
+CREATE TABLE UserNotes (
+    Id integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+	IdeaId int NOT NULL,
+	AutorUserId integer NOT NULL,
+	RecipientUserId integer NOT NULL,
+	Score int NOT NULL DEFAULT(100),
+	Comment Text,
+	TimePosted datetime NOT NULL,
+    FOREIGN KEY (IdeaId) REFERENCES Ideas (id),
+    FOREIGN KEY (AutorUserId) REFERENCES AspNetUsers (id)
+	FOREIGN KEY (RecipientUserId) REFERENCES AspNetUsers (id)
+);
+----------------------------[/REV 3]---------------------------------
+
