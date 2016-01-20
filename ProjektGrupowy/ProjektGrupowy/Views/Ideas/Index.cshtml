@@ -73,7 +73,10 @@ else
             <div class="idea-list-data">
                 @Html.DisplayFor(modelItem => item.TimePosted)
                 <br/><b>Desctiption</b>
-                @Html.DisplayFor(modelItem => item.Description.Truncate(100))
+                @{
+                    string parameterValue = item.Description.Truncate(100);
+                    Html.DisplayFor(modelItem => parameterValue);
+                }
                 <br /><b>Score:</b>
                 @Html.DisplayFor(modelItem => item.Score)
             </div>
