@@ -206,6 +206,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CommentViewModel.cs" />
+    <Compile Include="Models\IdeaCreateViewModel.cs" />
+    <Compile Include="Models\IdeaDetailsViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -272,6 +275,7 @@
     <Content Include="Views\Ideas\Details.cshtml" />
     <Content Include="Views\Ideas\Edit.cshtml" />
     <Content Include="Views\Ideas\Index.cshtml" />
+    <Content Include="Views\Comments\Comment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

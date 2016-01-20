@@ -1,31 +1,33 @@
-﻿@model CTS.Idea
+﻿@using ProjektGrupowy.Models
+@model ProjektGrupowy.Models.IdeaDetailsViewModel
 
 @{
-    ViewBag.Title = Model.Title + " - details";
+    ViewBag.Title = Model.Idea.Title + " - details";
 }
 
 <div>
-    <h2>@Html.DisplayFor(model => model.Title)</h2>
+    <h2>@Html.DisplayFor(model => model.Idea.Title)</h2>
 
-    <hr />
+    <hr/>
     <div>
         <div><center>
-    <button name="buttonUp" value="up" onclick="location.href='@Url.Action("UpVote", "Ideas", new { id = Model.Id })'">Up vote</button>
-    <button name="buttonDown" value="down" onclick="location.href='@Url.Action("DownVote", "Ideas", new { id = Model.Id })'">Down vote</button>
-</center></div>
+            <button name="buttonUp" value="up" onclick="location.href = '@Url.Action("UpVote", "Ideas", new {id = Model.Idea.Id})'">Up vote</button>
+            <button name="buttonDown" value="down" onclick="location.href = '@Url.Action("DownVote", "Ideas", new {id = Model.Idea.Id})'">Down vote</button>
+            </center>
+        </div>
         <div>
-            <img class="idea-img" src='@Url.Content("http://iconizer.net/files/Impressions_General_Icons/orig/bulb.png")' style="float:right" />
+            <img class="idea-img" src='@Url.Content("http://iconizer.net/files/Impressions_General_Icons/orig/bulb.png")' style="float: right"/>
             <table>
                 <tr>
                     <td>
-                        <a href='@Url.Action("UpVote", "Ideas", new {id = Model.Id})'>
+                        <a href='@Url.Action("UpVote", "Ideas", new {id = Model.Idea.Id})'>
                             <img src='@Url.Content("~/Images/up_arrow.png")' alt="Up vote"/>
                         </a>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <a href='@Url.Action("DownVote", "Ideas", new {id = Model.Id})'>
+                        <a href='@Url.Action("DownVote", "Ideas", new {id = Model.Idea.Id})'>
                             <img src='@Url.Content("~/Images/down_arrow.png")' alt="Down vote"/>
                         </a>
                     </td>
@@ -37,40 +39,40 @@
                 <dt>
                     <p>
                         <b>
-                            @Html.DisplayNameFor(model => model.Description)
+                            @Html.DisplayNameFor(model => model.Idea.Description)
                         </b>
                     </p>
                 </dt>
 
                 <dd>
                     <p>
-                        @Html.DisplayFor(model => model.Description)
+                        @Html.DisplayFor(model => model.Idea.Description)
                     </p>
                 </dd>
 
                 <dt>
                     <p>
                         <b>
-                            @Html.DisplayNameFor(model => model.Score)
+                            @Html.DisplayNameFor(model => model.Idea.Score)
                         </b>
                     </p>
                 </dt>
 
                 <dd>
                     <p>
-                        @Html.DisplayFor(model => model.Score)
+                        @Html.DisplayFor(model => model.Idea.Score)
                     </p>
                 </dd>
                 <dt>
                     <p>
                         <b>
-                            @Html.DisplayNameFor(model => model.AspNetUser.Email)
+                            @Html.DisplayNameFor(model => model.Idea.AspNetUser.Email)
                         </b>
                     </p>
                 </dt>
                 <dd>
                     <p>
-                        @Html.DisplayFor(model => model.AspNetUser.Email)
+                        @Html.DisplayFor(model => model.Idea.AspNetUser.Email)
                     </p>
                 </dd>
             </dl>
@@ -78,7 +80,23 @@
 
     </div>
 </div>
+<div style="margin-left: 5px">
+    @using (Html.BeginForm("PostComment", "Ideas"))
+    {
+        <input id="id" name="id" type="hidden" value="@Model.Idea.Id">
+        <input id="commentString" name="commentString" type="text" value="@Model.CommentString">
+        <input id="parentId" name="parentId" type="hidden" value="">
+        <input type="submit" value="PostComment" />
+    }
+    @foreach (var comment in Model.Comments.Where(x => x.Parent == null))
+    {
+        @Html.Partial("~/Views/Comments/Comment.cshtml", new CommentViewModel(comment, Model.Comments, Model.Idea.Id));
+    }
+</div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @if (User.Identity.IsAuthenticated && Model.Idea.AspNetUser != null && User.Identity.Name == Model.Idea.AspNetUser.UserName)
+    {
+        @Html.ActionLink("Edit", "Edit", new {id = Model.Idea.Id})
+    }
+    | @Html.ActionLink("Back to List", "Index")
 </p>

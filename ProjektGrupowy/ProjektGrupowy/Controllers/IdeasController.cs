@@ -97,7 +97,8 @@ namespace ProjektGrupowy.Controllers
             {
                 return HttpNotFound();
             }
-            return View(idea);
+            var comments = db.Comments.Include(x => x.AspNetUser).Where(x => x.Idea.Id == idea.Id).ToList();
+            return View(new IdeaDetailsViewModel(idea, comments));
         }
 
         // GET: Ideas/Create
@@ -111,16 +112,19 @@ namespace ProjektGrupowy.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Title,Description")] Idea idea)
+        public async Task<ActionResult> Create(IdeaCreateViewModel ideaViewModel)
         {
             if (User.Identity.IsAuthenticated)
             {
+                var idea = new Idea();
                 idea.Deleted = false;
                 //idea.TimeValidated = null;
                 string dbString = HttpContext.Server.MapPath("~/Database/test.db");
                 db = new DatabaseContext(dbString);
                 idea.Score = 1;
                 idea.TimePosted = DateTime.Now;
+                idea.Description = ideaViewModel.Idea.Description;
+                idea.Title = ideaViewModel.Idea.Title;
                 AspNetUser usr = db.AspNetUsers.First(x => x.UserName == User.Identity.Name);
                 Vote vote = new Vote();
                 vote.VoteValue = 1;
@@ -291,6 +295,34 @@ namespace ProjektGrupowy.Controllers
             //db.SaveChanges();
             return RedirectToAction("Details", new { id = id });
 
+        }
+
+        public async Task<ActionResult> PostComment(long id, string commentString, long? parentId)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                string dbString = HttpContext.Server.MapPath("~/Database/test.db");
+                using (db = new DatabaseContext(dbString))
+                {
+                    var comment = new Comment();
+                    comment.AspNetUser = db.AspNetUsers.First(x => x.UserName == User.Identity.Name);
+                    comment.CommentText = commentString;
+                    comment.Idea = db.Ideas.First(x => x.Id == id);
+                    comment.Deleted = false;
+
+                    if (parentId.HasValue)
+                    {
+                        long parentIdNotNull = parentId.GetValueOrDefault();
+                        comment.Parent = db.Comments.First(x => x.Id == parentIdNotNull);
+                    }
+
+                    comment.TimePosted = DateTime.Now;
+                    comment.Score = 1;
+                    db.Comments.Add(comment);
+                    db.SaveChangesAsync();
+                }
+            }
+            return RedirectToAction("Details", new { id = id });
         }
 
         public async Task<ActionResult> DownVote(long? id)
