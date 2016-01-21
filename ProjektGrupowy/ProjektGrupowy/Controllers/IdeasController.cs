@@ -74,7 +74,7 @@ namespace ProjektGrupowy.Controllers
                     break;
             }
 
-            int pageSize = 5;
+            int pageSize = 12;
             int pageNumber = (page ?? 1);
 
             return View(ideas.ToPagedList(pageNumber, pageSize));
@@ -125,6 +125,8 @@ namespace ProjektGrupowy.Controllers
                 idea.TimePosted = DateTime.Now;
                 idea.Description = ideaViewModel.Idea.Description;
                 idea.Title = ideaViewModel.Idea.Title;
+                if (ideaViewModel.Picture != null)
+                    idea.Picture = ideaViewModel.Picture;
                 AspNetUser usr = db.AspNetUsers.First(x => x.UserName == User.Identity.Name);
                 Vote vote = new Vote();
                 vote.VoteValue = 1;
@@ -183,7 +185,7 @@ namespace ProjektGrupowy.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Deleted,Title,Description,TimePosted,TimeValidated,TimeClosed,Score")] Idea idea)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Deleted,Title,Description,TimePosted,TimeValidated,TimeClosed,Score,Picture")] Idea idea)
         {
             if (ModelState.IsValid)
             {

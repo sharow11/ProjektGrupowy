@@ -55,6 +55,7 @@ CREATE TABLE Ideas (
     Deleted boolean NOT NULL DEFAULT FALSE,
     Title varchar NOT NULL,
     Description text NOT NULL,
+    Picture text,
     UserId integer NOT NULL,
     TimePosted datetime NOT NULL,
     TimeValidated datetime,

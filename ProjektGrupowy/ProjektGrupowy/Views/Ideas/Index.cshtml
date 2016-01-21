@@ -84,7 +84,14 @@ else
         <br />
         <center>
             <a href='@Url.Action("Details", new { id = item.Id })'>
-                <img class="idea-img" src='@Url.Content("http://iconizer.net/files/Impressions_General_Icons/orig/bulb.png")' />
+                @if (item.Picture == null) 
+                { 
+                    <img class="idea-img" src='@Url.Content("http://iconizer.net/files/Impressions_General_Icons/orig/bulb.png")' />
+                }
+                else
+                {
+                    <img class="idea-img" src='@Url.Content(item.Picture)' />
+                }
             </a>
         </center>
         <br />

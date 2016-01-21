@@ -19,6 +19,8 @@ namespace CTS
 
         public string Description { get; set; }
 
+        public string Picture { get; set; }
+
         public AspNetUser AspNetUser { get; set; }
 
         public DateTime TimePosted { get; set; }

@@ -2,17 +2,38 @@
 @using ProjektGrupowy.Models
 @model ProjektGrupowy.Models.CommentViewModel
 
+@{
+    string tekst = "tip tip-up";
+    if (Model.Comment.Parent == null)
+    {
+        tekst = "tip tip-left";
+    }
+}
 <div style="margin-left: 5px">
-    @Html.DisplayFor(x => x.Comment.CommentText)
-    User:
-    @Html.DisplayFor(x => x.Comment.AspNetUser.UserName)
-    Reply
+    <br />
+    <span style="color: #0a204d; font-size: 15px; margin-left: 50px;">
+        @Html.DisplayFor(x => x.Comment.AspNetUser.UserName)
+    </span>
+    <div class="dialogbox">
+        <div class="body">
+            <span class="@tekst"></span>
+            <div class="message">
+                <span>@Html.DisplayFor(x => x.Comment.CommentText)</span>
+            </div>
+        </div>
+    </div>
     @using (Html.BeginForm("PostComment", "Ideas"))
     {
         <input id="id" name="id" type="hidden" value="@Model.Comment.Idea.Id">
-        <input id="commentString" name="commentString" type="text" value="@Model.CommentString">
+        if (User.Identity.IsAuthenticated)
+        {
+            <input id="commentString" name="commentString" type="text" value="@Model.CommentString">
+        }
         <input id="parentId" name="parentId" type="hidden" value="@Model.Comment.Id">
-        <input type="submit" value="PostComment" />
+        if (User.Identity.IsAuthenticated)
+        {
+            <input type="submit" value="PostComment" />
+        }
     }
     @foreach (var comment in Model.Comments.Where(x => x.Parent != null && x.Parent.Id == Model.Comment.Id))
     {
