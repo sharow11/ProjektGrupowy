@@ -48,7 +48,7 @@ namespace ProjektGrupowy.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                ideas = ideas.Where(i => i.Title.Contains(searchString));
+                ideas = ideas.Where(i => i.Title.ToLower().Contains(searchString.ToLower()));
             }
 
             switch(sortOrder)
