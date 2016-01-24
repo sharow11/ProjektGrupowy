@@ -1,69 +1,10 @@
 ﻿@using CTS
 @{
-    ViewBag.Title = "Contact";
+    ViewBag.Title = "Contact us";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+<h2>@ViewBag.Title</h2>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
-
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-    <table>
-        <thead>
-        <tr>
-            <th>UserName</th>
-            <th>Email</th>
-            <th>Date Registered</th>
-        </tr>
-        </thead>
-        @foreach (AspNetUser user in ViewBag.Users)
-        {
-            <tr>
-                <td>
-                    @user.UserName
-                </td>
-                <td>
-                    @user.Email
-                </td>
-                <td>
-                    @user.DateRegistered
-                </td>
-            </tr>
-        }
-    </table>
-    <table>
-        <thead>
-        <tr>
-            <th>User</th>
-            <th>Comment</th>
-        </tr>
-        </thead>
-        @foreach (Comment comment in ViewBag.Comments)
-        {
-            if (comment.Parent == null)
-            {
-                <tr>
-                    <td>@comment.AspNetUser.UserName</td>
-                    <td>@comment.CommentText</td>
-                </tr>
-                foreach (Comment child in ViewBag.Comments)
-                {
-                    if (child.Parent != null && child.Parent.Id == comment.Id)
-                    {
-                        <tr>
-                            <td style="background-color: gray">@child.AspNetUser.UserName</td>
-                            <td style="background-color: gray">@child.CommentText</td>
-                        </tr>
-                    }
-                }
-            }
-        }
-</table>
-</address>
+<p>
+    In case of questions or ideas for further development of this site please contact us at:
+    <a href="mailto:domsokol1@student.pg.gda.pl?Subject=IdeaHub" target="_top">domsokol1@srudent.pg.gda.pl</a>
+</p>
