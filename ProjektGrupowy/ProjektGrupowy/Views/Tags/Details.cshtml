@@ -1,0 +1,93 @@
+﻿@using ProjektGrupowy.ExtensionMethods
+@model CTS.Tag
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>
+    @Model.Name
+</h2>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            <p>
+                <b>
+                    Owner email
+                </b>
+            </p>
+        </dt>
+
+        <dd>
+            <p>
+                @Html.DisplayFor(model => model.AspNetUser.Email)
+            </p>
+        </dd>
+
+        <dt>
+            <p>
+                <b>
+                    @Html.DisplayNameFor(model => model.Ideas.Count)
+                </b>
+            </p>
+        </dt>
+
+        <dd>
+            <b>
+                @Html.DisplayFor(model => model.Ideas.Count)
+            </b>
+        </dd>
+    </dl>
+</div>
+
+
+
+@foreach (var item in Model.Ideas)
+{
+    <div class="idea-list">
+        <div class="idea-list-txt">
+            <div class="idea-list-title">@Html.DisplayFor(modelItem => item.Title)</div>
+            <br />
+            <div class="idea-list-data">
+                @Html.DisplayFor(modelItem => item.TimePosted)
+                <br /><b>Desctiption</b>
+                @{
+                    string parameterValue = item.Description.Truncate(100);
+                }
+                @Html.DisplayFor(modelItem => parameterValue)
+                <br /><b>Score:</b>
+                @Html.DisplayFor(modelItem => item.Score)
+            </div>
+        </div>
+        <br />
+        <center>
+            <a href='@Url.Action("Details", new { id = item.Id })'>
+                @if (item.Picture == null)
+                {
+                    <img class="idea-img" src='@Url.Content("http://iconizer.net/files/Impressions_General_Icons/orig/bulb.png")' />
+                }
+                else
+                {
+                    <img class="idea-img" src='@Url.Content(item.Picture)' />
+                }
+            </a>
+        </center>
+        <br />
+        <center>
+            <table>
+                <tr>
+                    <td>
+                        <options>
+                            @Html.ActionLink("Details", "Details", new { id = item.Id })
+                        </options>
+                    </td>
+                </tr>
+            </table>
+        </center>
+    </div>
+}
+
+<div style="clear: both">
+    <br /><br />
+</div>

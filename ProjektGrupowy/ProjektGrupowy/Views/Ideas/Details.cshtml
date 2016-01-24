@@ -88,7 +88,7 @@
                     @foreach (var tag in Model.Idea.Tags)
                     {
                         <b>
-                            @tag.Name
+                            @Html.ActionLink(tag.Name, "Details", "Tags", new { id = tag.Id}, null)
                         </b>
                     }
                 </dd>
