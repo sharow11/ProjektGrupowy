@@ -84,6 +84,7 @@ namespace DAL.UnitTests
                 TimePosted = DateTime.Now,
                 TimeValidated = DateTime.Now,
                 Title = "GeekBook - Social media for geeks only",
+                Picture = "http:////www.autumnbench.com//wp-content//uploads//2014//05//geek-300x300.jpg",
                 AspNetUser = usr
             };
             dbcontext.AspNetUsers.Add(usr);
