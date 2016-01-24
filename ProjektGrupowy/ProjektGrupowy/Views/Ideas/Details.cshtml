@@ -77,6 +77,21 @@
                         @Html.DisplayFor(model => model.Idea.AspNetUser.Email)
                     </b>
                 </dd>
+                <dt>
+                    <p>
+                        <b>
+                            @Html.DisplayNameFor(model => model.Idea.Tags)
+                        </b>
+                    </p>
+                </dt>
+                <dd>
+                    @foreach (var tag in Model.Idea.Tags)
+                    {
+                        <b>
+                            @tag.Name
+                        </b>
+                    }
+                </dd>
             </dl>
         </div>
 

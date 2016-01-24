@@ -11,5 +11,7 @@ namespace ProjektGrupowy.Models
         public Idea Idea { get; set; }
 
         public string Picture { get; set; }
+
+        public string Tags { get; set; }
     }
 }

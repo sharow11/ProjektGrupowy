@@ -92,7 +92,7 @@ namespace ProjektGrupowy.Controllers
             string dbString = HttpContext.Server.MapPath("~/Database/test.db");
             db = new DatabaseContext(dbString);
 
-            Idea idea = db.Ideas.Include(x => x.AspNetUser).First(x => x.Id == id);
+            Idea idea = db.Ideas.Include(x => x.AspNetUser).Include(x => x.Tags).First(x => x.Id == id);
             if (idea == null)
             {
                 return HttpNotFound();
@@ -132,6 +132,8 @@ namespace ProjektGrupowy.Controllers
                 vote.VoteValue = 1;
                 vote.AspNetUser = usr;
                 vote.Idea = idea;
+                idea.Tags = new List<Tag>();
+                List<string> tagList = ideaViewModel.Tags.Split(' ').Distinct().ToList();
                 if (usr != null)
                 {
                     idea.AspNetUser = usr;
@@ -139,6 +141,27 @@ namespace ProjektGrupowy.Controllers
                 else
                 {
                     return null;
+                }
+
+                foreach (var tag in tagList)
+                {
+                    if (db.Tags.Any(x => x.Name == tag))
+                    {
+                        var dbTag = db.Tags.First(x => x.Name == tag);
+                        idea.Tags.Add(dbTag);
+                        dbTag.Ideas.Add(idea);
+                    }
+                    else
+                    {
+                        var newTag = new Tag();
+                        newTag.AspNetUser = usr;
+                        newTag.Name = tag;
+                        newTag.TimeCreated = DateTime.Now;
+                        newTag.Deleted = false;
+                        newTag.Ideas = new List<Idea>();
+                        newTag.Ideas.Add(idea);
+                        idea.Tags.Add(newTag);
+                    }
                 }
 
                 if (ModelState.IsValid)
@@ -152,13 +175,6 @@ namespace ProjektGrupowy.Controllers
                 return View(idea);
             }
             return null;
-        }
-
-        private List<Tag> parseForTags(string desc)
-        {
-            List<Tag> list = new List<Tag>();
-
-            return list;
         }
 
         // GET: Ideas/Edit/5
