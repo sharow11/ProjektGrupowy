@@ -48,29 +48,29 @@ namespace DAL.UnitTests
 
             dbcontext.AspNetUsers.Add(new AspNetUser()
             {
-                UserName = "a",
+                UserName = "MrIdea",
                 BirthDate = DateTime.Now,
                 DateRegistered = DateTime.Now,
-                Email = "asdf",
-                PasswordHash = "aaa",
+                Email = "mridea@o2.com",
+                PasswordHash = "werfghjhgfdsfghjm",
                 SecurityStamp = "aaa"
             });
             dbcontext.SaveChanges();
             AspNetUser aspNetUser = new AspNetUser()
             {
-                UserName = "b",
+                UserName = "SuperIdea",
                 BirthDate = DateTime.Now,
                 DateRegistered = DateTime.Now,
-                Email = "asdf",
+                Email = "1234@wp.com",
                 PasswordHash = "aaa",
                 SecurityStamp = "aaa"
             };
             AspNetUser usr = new AspNetUser()
             {
-                UserName = "a",
+                UserName = "harry_potter",
                 BirthDate = DateTime.Now,
                 DateRegistered = DateTime.Now,
-                Email = "asdf111",
+                Email = "harry@qwerty.pl",
                 PasswordHash = "aaa111",
                 SecurityStamp = "aaa111",
                 LockoutEnabled = true
@@ -79,11 +79,11 @@ namespace DAL.UnitTests
             Idea idea = new Idea()
             {
                 Deleted = false,
-                Description = "asdf",
+                Description = "Let's create super cool social media platform for geeks only, because I'm tired of normal people. Twilight fans not welcome",
                 TimeClosed = DateTime.Now,
                 TimePosted = DateTime.Now,
                 TimeValidated = DateTime.Now,
-                Title = "qwer",
+                Title = "GeekBook - Social media for geeks only",
                 AspNetUser = usr
             };
             dbcontext.AspNetUsers.Add(usr);
@@ -94,7 +94,7 @@ namespace DAL.UnitTests
 
             Tag tag = new Tag()
             {
-                Name = "Porn",
+                Name = "geek",
                 Ideas = new List<Idea>() {idea},
                 AspNetUser = usr
             };
@@ -108,7 +108,7 @@ namespace DAL.UnitTests
                 Idea = idea,
                 TimePosted = DateTime.Now,
                 AspNetUser = usr,
-                CommentText = "Lorem Ipsum"
+                CommentText = "That is a great idea my friend, but I'm afraid there woludn't be many girls."
             };
             Comment comment2 = new Comment()
             {
@@ -117,7 +117,7 @@ namespace DAL.UnitTests
                 TimePosted = DateTime.Now,
                 AspNetUser = aspNetUser,
                 Parent = comment,
-                CommentText = "QWERTY"
+                CommentText = "how about social media site for programmers only?"
             };
             dbcontext.Comments.Add(comment);
             dbcontext.Comments.Add(comment2);
