@@ -21,7 +21,15 @@ namespace ProjektGrupowy.Controllers
             var user = db.AspNetUsers.First(x => x.Id == id);
             int score = 0;
             score += db.Comments.Count(x => x.AspNetUser.Id == id);
-            score += db.Ideas.Where(x => x.AspNetUser.Id == id).Sum(x => x.Score);
+            try
+            {
+                score += db.Ideas.Where(x => x.AspNetUser.Id == id).Sum(x => x.Score);
+            }
+            catch (Exception ex)
+            {
+                //if user has no ideas posted this query causes 
+                //The cast to value type 'System.Int32' failed because the materialized value is null. Either the result type's generic parameter or the query must use a nullable type.
+            }
 
             return View(new UserViewModel(score, user));
         }
