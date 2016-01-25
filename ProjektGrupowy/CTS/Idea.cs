@@ -18,7 +18,7 @@ namespace CTS
         public string Title { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 10)]
+        [StringLength(100000, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 10)]
         public string Description { get; set; }
 
         public string Picture { get; set; }

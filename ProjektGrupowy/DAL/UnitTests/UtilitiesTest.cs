@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -89,9 +90,25 @@ namespace DAL.UnitTests
             };
             dbcontext.AspNetUsers.Add(usr);
             dbcontext.AspNetUsers.Add(aspNetUser);
-            dbcontext.SaveChanges();
+
+            try
+            {
+                dbcontext.SaveChanges();
+            }
+            catch (DbEntityValidationException e)
+            {
+                var tmp = e.EntityValidationErrors;
+            }
             dbcontext.Ideas.Add(idea);
-            dbcontext.SaveChanges();
+
+            try
+            {
+                dbcontext.SaveChanges();
+            }
+            catch (DbEntityValidationException e)
+            {
+                var tmp = e.EntityValidationErrors;
+            }
 
             Tag tag = new Tag()
             {
@@ -101,7 +118,15 @@ namespace DAL.UnitTests
             };
             idea.Tags = new List<Tag>(){tag};
             dbcontext.Tags.Add(tag);
-            dbcontext.SaveChanges();
+
+            try
+            {
+                dbcontext.SaveChanges();
+            }
+            catch (DbEntityValidationException e)
+            {
+                var tmp = e.EntityValidationErrors;
+            }
 
             Comment comment = new Comment()
             {
@@ -122,7 +147,15 @@ namespace DAL.UnitTests
             };
             dbcontext.Comments.Add(comment);
             dbcontext.Comments.Add(comment2);
-            dbcontext.SaveChanges();
+
+            try
+            {
+                dbcontext.SaveChanges();
+            }
+            catch (DbEntityValidationException e)
+            {
+                var tmp = e.EntityValidationErrors;
+            }
 
             var id = dbcontext.AspNetUsers.First(x => x.LockoutEnabled).Id;
             Assert.AreEqual(id, dbcontext.Ideas.First().AspNetUser.Id);
