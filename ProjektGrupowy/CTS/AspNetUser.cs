@@ -13,8 +13,10 @@ namespace CTS
 {
     [Table("AspNetUsers")]
     public class AspNetUser : IdentityUser<Int64, AspNeUserLogin, AspNeUserRole,
-        AspNeUserClaim> 
+        AspNeUserClaim>
     {
+        public string CV { get; set; }
+
         [Required]
         public DateTime DateRegistered { get; set; }
 

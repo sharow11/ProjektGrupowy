@@ -8,6 +8,7 @@ CREATE TABLE AspNetUsers (
     UserName varchar NOT NULL,
     LockoutEnabled boolean NOT NULL DEFAULT 0,
 	LockoutEndDateUtc datetime,
+    CV varchar,
     DateRegistered datetime NOT NULL,
     Email varchar NOT NULL,
 	AccessFailedCount int NOT NULL DEFAULT 0,

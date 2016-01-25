@@ -19,22 +19,25 @@
             {
                 <img class="idea-img" src='@Url.Content(Model.Idea.Picture)' style="float: right" />
             }
-            <table>
-                <tr>
-                    <td>
-                        <a href='@Url.Action("UpVote", "Ideas", new {id = Model.Idea.Id})'>
-                            <img src='@Url.Content("~/Images/up_arrow.png")' alt="Up vote"/>
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <a href='@Url.Action("DownVote", "Ideas", new {id = Model.Idea.Id})'>
-                            <img src='@Url.Content("~/Images/down_arrow.png")' alt="Down vote"/>
-                        </a>
-                    </td>
-                </tr>
-            </table>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <table>
+                    <tr>
+                        <td>
+                            <a href='@Url.Action("UpVote", "Ideas", new {id = Model.Idea.Id})'>
+                                <img src='@Url.Content("~/Images/up_arrow.png")' alt="Up vote"/>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href='@Url.Action("DownVote", "Ideas", new {id = Model.Idea.Id})'>
+                                <img src='@Url.Content("~/Images/down_arrow.png")' alt="Down vote"/>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            }
         </div>
         <div>
             <dl class="dl-horizontal">
@@ -47,8 +50,8 @@
                 </dt>
 
                 <dd>
-                    <p>
-                        @Html.DisplayFor(model => model.Idea.Description)
+                    <p style="white-space: pre-line;">
+                        @Model.Idea.Description
                     </p>
                 </dd>
 
@@ -68,13 +71,13 @@
                 <dt>
                     <p>
                         <b>
-                            @Html.DisplayNameFor(model => model.Idea.AspNetUser.Email)
+                            User name
                         </b>
                     </p>
                 </dt>
                 <dd>
                     <b>
-                        @Html.DisplayFor(model => model.Idea.AspNetUser.Email)
+                        @Html.ActionLink(Model.Idea.AspNetUser.Email, "Details", "User", new { id = Model.Idea.AspNetUser.Id }, null)
                     </b>
                 </dd>
                 <dt>
@@ -122,7 +125,7 @@
     }
 </div>
 <br />
-@if (!User.Identity.IsAuthenticated)
+@if (!User.Identity.IsAuthenticated && Model.Comments.Any())
 {
     <span style="color: #ce0000; font-size: 18px;">
         @Html.ActionLink("Log in to reply", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })

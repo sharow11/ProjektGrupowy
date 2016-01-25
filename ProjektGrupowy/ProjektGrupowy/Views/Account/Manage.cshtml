@@ -1,4 +1,6 @@
-﻿@using ProjektGrupowy.Models;
+﻿@using CTS
+@using DAL
+@using ProjektGrupowy.Models;
 @using Microsoft.AspNet.Identity;
 @{
     ViewBag.Title = "Manage Account";
@@ -17,11 +19,18 @@
         {
             @Html.Partial("_SetPasswordPartial")
         }
-
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10", style="font-size: 20px">
+                @Html.ActionLink("Edit CV", "CurrentUserDetails", "User")
+            </div>
+        </div>
+        <br />
+        <br />
         <section id="externalLogins">
             @Html.Action("RemoveAccountList")
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { Action = "LinkLogin", ReturnUrl = ViewBag.ReturnUrl })
+            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel {Action = "LinkLogin", ReturnUrl = ViewBag.ReturnUrl})
         </section>
+
     </div>
 </div>
 @section Scripts {

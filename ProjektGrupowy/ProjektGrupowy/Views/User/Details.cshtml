@@ -1,0 +1,60 @@
+﻿@model ProjektGrupowy.Models.UserViewModel
+@{
+    ViewBag.Title = "Details";
+}
+<h2>Details</h2>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            <p>
+                <b>
+                    User name
+                </b>
+            </p>
+        </dt>
+        <dd>
+            <b>
+                @Model.User.Email
+            </b>
+        </dd>
+
+        <dt>
+            <p>
+                <b>
+                    Score
+                </b>
+            </p>
+        </dt>
+        <dd>
+            <b>
+                @Model.Score
+            </b>
+        </dd>
+
+        <dt>
+            <p>
+                <b>
+                    @Html.DisplayNameFor(model => model.User.CV)
+                </b>
+            </p>
+        </dt>
+        <dd>
+            <b style="white-space:pre-line">
+                @if (User.Identity.IsAuthenticated && Model.User != null && User.Identity.Name == Model.User.UserName)
+                {
+                    string cv = Model.User.CV;
+                    using (Html.BeginForm("EditCV", "User", FormMethod.Post))
+                    {
+                        @Html.TextArea("cv", cv, new { cols = "55", rows = "10" })
+                        <input type="submit" value="Save" />
+                    }
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.User.CV)
+                }
+            </b>
+        </dd>
+    </dl>
+</div>
