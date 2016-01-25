@@ -278,6 +278,7 @@
     <Content Include="Views\Ideas\Index.cshtml" />
     <Content Include="Views\Comments\Comment.cshtml" />
     <Content Include="Views\Tags\Details.cshtml" />
+    <Content Include="Views\Tags\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -22,5 +22,21 @@ namespace ProjektGrupowy.Controllers
             }
             return View(tag);
         }
+
+        public ActionResult Search(string searchString)
+        {
+            string dbString = HttpContext.Server.MapPath("~/Database/test.db");
+            Tag tag;
+            using (var db = new DatabaseContext(dbString))
+            {
+                tag =
+                    db.Tags.Include(x => x.Ideas).Include(x => x.AspNetUser).FirstOrDefault(x => x.Name == searchString);
+            }
+            if (tag == null)
+            {
+                return View();
+            }
+            return RedirectToAction("Details", new {id = tag.Id});
+        }
     }
 }
