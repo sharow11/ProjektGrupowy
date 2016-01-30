@@ -126,4 +126,13 @@ CREATE TABLE UserNotes (
 	FOREIGN KEY (RecipientUserId) REFERENCES AspNetUsers (id)
 );
 ----------------------------[/REV 3]---------------------------------
-
+----------------------------[REV 4]---------------------------------
+CREATE TABLE Votes (
+    Id integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+	CommentId int NOT NULL,
+	UserId integer NOT NULL,
+	VoteValue int NOT NULL DEFAULT(1),
+    FOREIGN KEY (CommentId) REFERENCES Comments (id),
+    FOREIGN KEY (UserId) REFERENCES AspNetUsers (id)
+);
+----------------------------[/REV 4]---------------------------------

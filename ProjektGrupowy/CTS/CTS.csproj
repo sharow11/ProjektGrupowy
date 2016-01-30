@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comment.cs" />
+    <Compile Include="CommentVote.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Idea.cs" />
     <Compile Include="Tag.cs" />

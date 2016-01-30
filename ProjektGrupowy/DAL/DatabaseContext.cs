@@ -35,6 +35,8 @@ namespace DAL
             modelBuilder.Entity<Comment>().HasRequired(a => a.AspNetUser).WithMany().Map(x => x.MapKey("UserId"));
             modelBuilder.Entity<Vote>().HasRequired(a => a.AspNetUser).WithMany().Map(x => x.MapKey("UserId"));
             modelBuilder.Entity<Vote>().HasRequired(a => a.Idea).WithMany().Map(x => x.MapKey("IdeaId"));
+            modelBuilder.Entity<CommentVote>().HasRequired(a => a.AspNetUser).WithMany().Map(x => x.MapKey("UserId"));
+            modelBuilder.Entity<CommentVote>().HasRequired(a => a.Comment).WithMany().Map(x => x.MapKey("CommentId"));
             modelBuilder.Entity<UserNote>().HasRequired(a => a.AspNetUserAutor).WithMany().Map(x => x.MapKey("AutorUserId"));
             modelBuilder.Entity<UserNote>().HasRequired(a => a.AspNetUserRecipient).WithMany().Map(x => x.MapKey("RecipientUserId"));
             modelBuilder.Entity<UserNote>().HasRequired(a => a.Idea).WithMany().Map(x => x.MapKey("IdeaId"));

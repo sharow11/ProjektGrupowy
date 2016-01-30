@@ -20,9 +20,9 @@ namespace ProjektGrupowy.Controllers
             db = new DatabaseContext(dbString);
             var user = db.AspNetUsers.First(x => x.Id == id);
             int score = 0;
-            score += db.Comments.Count(x => x.AspNetUser.Id == id);
             try
             {
+                score += db.Comments.Count(x => x.AspNetUser.Id == id);
                 score += db.Ideas.Where(x => x.AspNetUser.Id == id).Sum(x => x.Score);
             }
             catch (Exception ex)
