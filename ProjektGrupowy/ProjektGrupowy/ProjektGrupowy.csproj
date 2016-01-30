@@ -224,7 +224,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\dislike.png" />
+    <Content Include="Images\dislike_grey.png" />
     <Content Include="Images\down_arrow.png" />
+    <Content Include="Images\like.png" />
+    <Content Include="Images\like_grey.png" />
     <Content Include="Images\up_arrow.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

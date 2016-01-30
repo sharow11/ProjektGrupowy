@@ -21,18 +21,18 @@
             }
             @if (User.Identity.IsAuthenticated)
             {
-                <table>
+                <table style="float: left">
                     <tr>
                         <td>
                             <a href='@Url.Action("UpVote", "Ideas", new {id = Model.Idea.Id})'>
-                                <img src='@Url.Content("~/Images/up_arrow.png")' alt="Up vote"/>
+                                <img src='@Url.Content("~/Images/like.png")' alt="Up vote" width="64px" height="64px" />
                             </a>
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <a href='@Url.Action("DownVote", "Ideas", new {id = Model.Idea.Id})'>
-                                <img src='@Url.Content("~/Images/down_arrow.png")' alt="Down vote"/>
+                                <img src='@Url.Content("~/Images/dislike.png")' alt="Down vote" width="64px" height="64px" />
                             </a>
                         </td>
                     </tr>
@@ -41,16 +41,16 @@
         </div>
         <div>
             <dl class="dl-horizontal">
-                <dt>
+                @*<dt>
                     <p>
                         <b>
                             @Html.DisplayNameFor(model => model.Idea.Description)
                         </b>
                     </p>
-                </dt>
+                </dt>*@
 
                 <dd>
-                    <p style="white-space: pre-line;">
+                    <p style="white-space: pre-line; text-align: left;">
                         @Model.Idea.Description
                     </p>
                 </dd>
