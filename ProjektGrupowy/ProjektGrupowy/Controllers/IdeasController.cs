@@ -171,8 +171,7 @@ namespace ProjektGrupowy.Controllers
                     await db.SaveChangesAsync();
                     return RedirectToAction("Index");
                 }
-
-                return View(idea);
+                return View(ideaViewModel);
             }
             return null;
         }
