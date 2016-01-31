@@ -127,7 +127,7 @@ CREATE TABLE UserNotes (
 );
 ----------------------------[/REV 3]---------------------------------
 ----------------------------[REV 4]---------------------------------
-CREATE TABLE Votes (
+CREATE TABLE CommentVotes (
     Id integer NOT NULL PRIMARY KEY AUTOINCREMENT,
 	CommentId int NOT NULL,
 	UserId integer NOT NULL,

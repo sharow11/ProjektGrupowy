@@ -18,6 +18,7 @@ namespace DAL
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Vote> Votes { get; set; }
         public DbSet<UserNote> UserNotes { get; set; }
+        public DbSet<CommentVote> CommentVotes { get; set; }
 
         public DatabaseContext(string filename) : base(new SQLiteConnection() { ConnectionString =
             new SQLiteConnectionStringBuilder()
