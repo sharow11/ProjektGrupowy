@@ -42,9 +42,10 @@ namespace CTS
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
     public sealed class ValidatePictureAttribute : ValidationAttribute
     {
+        public static bool unitTests = false;
         public override bool IsValid(object value)
         {
-            if (value == null)
+            if (value == null || ValidatePictureAttribute.unitTests)
                 return true;
             HttpWebRequest request;
             try

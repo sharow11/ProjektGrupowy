@@ -36,6 +36,7 @@ namespace DAL.UnitTests
         [Test]
         public void PopulateDatabase()
         {
+            ValidatePictureAttribute.unitTests = true;
             _file = DatabaseFileUtilities.Filename;
             Assert.That(null != _file);
 
