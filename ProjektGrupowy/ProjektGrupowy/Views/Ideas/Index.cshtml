@@ -1,5 +1,5 @@
 ﻿@*@model IEnumerable<CTS.Idea>*@
-@model PagedList.IPagedList<CTS.Idea>
+@model PagedList.IPagedList<ProjektGrupowy.Models.IdeaIndexViewModel>
 @using Microsoft.Ajax.Utilities
 @using PagedList.Mvc;
 @using ProjektGrupowy.ExtensionMethods
@@ -68,29 +68,30 @@ else
 {
     <div class="idea-list">
         <div class="idea-list-txt">
-            <div class="idea-list-title">@Html.DisplayFor(modelItem => item.Title)</div>
+            <div class="idea-list-title">@Html.DisplayFor(modelItem => item.Idea.Title)</div>
             <br />
             <div class="idea-list-data">
-                @Html.DisplayFor(modelItem => item.TimePosted)
+                @Html.DisplayFor(modelItem => item.Idea.TimePosted)
                 <br/><b>Desctiption</b>
                 @{
-                    string parameterValue = item.Description.Truncate(100);
+                    string parameterValue = item.Idea.Description.Truncate(100);
                 }
                 @Html.DisplayFor(modelItem => parameterValue)
                 <br /><b>Score:</b>
-                @Html.DisplayFor(modelItem => item.Score)
+                @Html.DisplayFor(modelItem => item.Idea.Score)
+                <br /><b>@item.CommentCount comments</b>
             </div>
         </div>
         <br />
         <center>
-            <a href='@Url.Action("Details", new { id = item.Id })'>
-                @if (item.Picture == null) 
+            <a href='@Url.Action("Details", new { id = item.Idea.Id })'>
+                @if (item.Idea.Picture == null) 
                 { 
                     <img class="idea-img" src='@Url.Content("http://iconizer.net/files/Impressions_General_Icons/orig/bulb.png")' />
                 }
                 else
                 {
-                    <img class="idea-img" src='@Url.Content(item.Picture)' />
+                    <img class="idea-img" src='@Url.Content(item.Idea.Picture)' />
                 }
             </a>
         </center>
@@ -100,22 +101,22 @@ else
                 <tr>
                     <td>
                         <options>
-                            @if (User.Identity.IsAuthenticated && item.AspNetUser != null && User.Identity.Name == item.AspNetUser.UserName)
+                            @if (User.Identity.IsAuthenticated && item.Idea.AspNetUser != null && User.Identity.Name == item.Idea.AspNetUser.UserName)
                             {
-                                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Idea.Id })
                             }
                         </options>
                     </td>
                     <td>
                         <options>
-                            @Html.ActionLink("Details", "Details", new { id = item.Id })
+                            @Html.ActionLink("Details", "Details", new { id = item.Idea.Id })
                         </options>
                     </td>
                     <td>
                         <options>
-                            @if (User.Identity.IsAuthenticated && item.AspNetUser != null &&  User.Identity.Name == item.AspNetUser.UserName)
+                            @if (User.Identity.IsAuthenticated && item.Idea.AspNetUser != null && User.Identity.Name == item.Idea.AspNetUser.UserName)
                             {
-                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Idea.Id })
                             }
                         </options>
                     </td>

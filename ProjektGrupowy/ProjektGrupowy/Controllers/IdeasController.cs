@@ -76,8 +76,14 @@ namespace ProjektGrupowy.Controllers
 
             int pageSize = 12;
             int pageNumber = (page ?? 1);
+            var model = new List<IdeaIndexViewModel>();
+            foreach (var idea in ideas)
+            {
+                int count = db.Comments.Count(x => x.Idea.Id == idea.Id);
+                model.Add(new IdeaIndexViewModel(idea, count));
+            }
 
-            return View(ideas.ToPagedList(pageNumber, pageSize));
+            return View(model.ToPagedList(pageNumber, pageSize));
             //return View(await db.Ideas.Where(x => x.Deleted == false ).ToListAsync());
         }
 

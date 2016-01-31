@@ -211,6 +211,7 @@
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\IdeaCreateViewModel.cs" />
     <Compile Include="Models\IdeaDetailsViewModel.cs" />
+    <Compile Include="Models\IdeaIndexViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
