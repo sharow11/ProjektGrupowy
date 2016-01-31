@@ -155,14 +155,14 @@ options {
   max-width: 300px;
   height: auto;
   margin: 0px 0px;
-  padding: 5px;
+  padding: 2px;
   background-color: #a7c5d8;
-  border-radius: 3px;
-  border: 5px solid #337ab7;
+  border-radius: 7px;
+  border: 3px solid #337ab7;
 }
 
 .body .message {
-  min-height: 30px;
+  min-height: 16px;
   border-radius: 3px;
   font-family: Arial;
   font-size: 14px;

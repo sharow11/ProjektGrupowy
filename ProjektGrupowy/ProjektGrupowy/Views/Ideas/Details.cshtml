@@ -111,14 +111,16 @@
     @using (Html.BeginForm("PostComment", "Ideas"))
     {
         <input id="id" name="id" type="hidden" value="@Model.Idea.Id">
-    if (User.Identity.IsAuthenticated) { 
-        <input id="commentString" name="commentString" type="text" value="@Model.CommentString">
-    }
+        if (User.Identity.IsAuthenticated) { 
+            <input id="commentString" name="commentString" type="text" value="@Model.CommentString">
+        }
         <input id="parentId" name="parentId" type="hidden" value="">
         if (User.Identity.IsAuthenticated) { 
             <input type="submit" value="Post Comment" />
         }
     }
+</div>
+<div style="margin-left: -45px">
     @foreach (var comment in Model.Comments.Where(x => x.Parent == null))
     {
         @Html.Partial("~/Views/Comments/Comment.cshtml", new CommentViewModel(comment, Model.Comments, Model.Idea.Id));
