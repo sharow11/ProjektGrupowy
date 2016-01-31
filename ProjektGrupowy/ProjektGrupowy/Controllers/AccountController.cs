@@ -58,7 +58,7 @@ namespace ProjektGrupowy.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindAsync(model.Email, model.Password);
+                var user = await UserManager.FindAsync(model.UserName, model.Password);
                 if (user != null)
                 {
                     await SignInAsync(user, model.RememberMe);
@@ -91,7 +91,7 @@ namespace ProjektGrupowy.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new AspNetUser() { UserName = model.Email, Email = model.Email, CV = model.CV };
+                var user = new AspNetUser() { UserName = model.UserName, Email = model.Email, CV = model.CV };
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -154,7 +154,7 @@ namespace ProjektGrupowy.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
+                var user = await UserManager.FindByEmailAsync(model.Email);
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
                     ModelState.AddModelError("", "The user either does not exist or is not confirmed.");
@@ -202,7 +202,7 @@ namespace ProjektGrupowy.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
+                var user = await UserManager.FindByEmailAsync(model.Email);
                 if (user == null)
                 {
                     ModelState.AddModelError("", "No user found.");
@@ -355,7 +355,7 @@ namespace ProjektGrupowy.Controllers
                 // If the user does not have an account, then prompt the user to create an account
                 ViewBag.ReturnUrl = returnUrl;
                 ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email, CV = ""});
+                return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { UserName = loginInfo.ExternalIdentity.Name, Email = loginInfo.Email, CV = ""});
             }
         }
 
@@ -406,7 +406,7 @@ namespace ProjektGrupowy.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new AspNetUser() { UserName = model.Email, Email = model.Email, CV = model.CV};
+                var user = new AspNetUser() { UserName = model.UserName, Email = model.Email, CV = model.CV};
                 IdentityResult result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
