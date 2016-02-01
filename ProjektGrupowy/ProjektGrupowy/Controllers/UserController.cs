@@ -23,7 +23,8 @@ namespace ProjektGrupowy.Controllers
             try
             {
                 score += db.Comments.Count(x => x.AspNetUser.Id == id);
-                score += db.Ideas.Where(x => x.AspNetUser.Id == id).Sum(x => x.Score);
+                score += db.CommentVotes.Where(x => x.Comment.AspNetUser.Id == id).Sum(x => x.VoteValue);
+                score += db.Ideas.Where(x => x.AspNetUser.Id == id).Sum(x => x.Score) * 10;
             }
             catch (Exception ex)
             {

@@ -320,6 +320,100 @@ namespace ProjektGrupowy.Controllers
 
         }
 
+        public async Task<ActionResult> CommentUpVote(long? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            string dbString = HttpContext.Server.MapPath("~/Database/test.db");
+            db = new DatabaseContext(dbString);
+
+            Comment comment = db.Comments.Include(x => x.Idea).First(x => x.Id == id);
+            if (comment == null)
+            {
+                return HttpNotFound();
+            }
+
+            AspNetUser usr = db.AspNetUsers.First(x => x.UserName == User.Identity.Name);
+            if (User.Identity.IsAuthenticated && !db.CommentVotes.Any(x => x.AspNetUser.Id == usr.Id && x.Comment.Id == id))
+            {
+                CommentVote vote = new CommentVote();
+                vote.VoteValue = 1;
+                vote.AspNetUser = usr;
+                vote.Comment = comment;
+                if (ModelState.IsValid)
+                {
+                    db.CommentVotes.Add(vote);
+                    await db.SaveChangesAsync();
+                }
+                comment.Score++;
+                db.Entry(comment).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+            }
+            else if (User.Identity.IsAuthenticated && db.CommentVotes.Any(x => x.AspNetUser.Id == usr.Id && x.Comment.Id == id && x.VoteValue == -1))
+            {
+                CommentVote vote = db.CommentVotes.First(x => x.AspNetUser.Id == usr.Id && x.Comment.Id == id && x.VoteValue == -1);
+                if (ModelState.IsValid)
+                {
+                    db.CommentVotes.Remove(vote);
+                    await db.SaveChangesAsync();
+                }
+                comment.Score++;
+                db.Entry(comment).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+            }
+            return RedirectToAction("Details", new { id = comment.Idea.Id });
+        }
+
+        public async Task<ActionResult> CommentDownVote(long? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            string dbString = HttpContext.Server.MapPath("~/Database/test.db");
+            db = new DatabaseContext(dbString);
+
+            Comment comment = db.Comments.Include(x => x.Idea).First(x => x.Id == id);
+            if (comment == null)
+            {
+                return HttpNotFound();
+            }
+
+            AspNetUser usr = db.AspNetUsers.First(x => x.UserName == User.Identity.Name);
+            if (User.Identity.IsAuthenticated && !db.CommentVotes.Any(x => x.AspNetUser.Id == usr.Id && x.Comment.Id == id))
+            {
+                CommentVote vote = new CommentVote();
+                vote.VoteValue = -1;
+                vote.AspNetUser = usr;
+                vote.Comment = comment;
+                if (ModelState.IsValid)
+                {
+                    db.CommentVotes.Add(vote);
+                    await db.SaveChangesAsync();
+                }
+                comment.Score--;
+                db.Entry(comment).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+            }
+            else if (User.Identity.IsAuthenticated && db.CommentVotes.Any(x => x.AspNetUser.Id == usr.Id && x.Comment.Id == id && x.VoteValue == 1))
+            {
+                CommentVote vote = db.CommentVotes.First(x => x.AspNetUser.Id == usr.Id && x.Comment.Id == id && x.VoteValue == 1);
+                if (ModelState.IsValid)
+                {
+                    db.CommentVotes.Remove(vote);
+                    await db.SaveChangesAsync();
+                }
+                comment.Score--;
+                db.Entry(comment).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+            }
+            return RedirectToAction("Details", new { id = comment.Idea.Id });
+        }
+
         public async Task<ActionResult> PostComment(long id, string commentString, long? parentId)
         {
             if (User.Identity.IsAuthenticated)
@@ -343,6 +437,17 @@ namespace ProjektGrupowy.Controllers
                     comment.Score = 1;
                     db.Comments.Add(comment);
                     db.SaveChangesAsync();
+
+                    AspNetUser usr = db.AspNetUsers.First(x => x.UserName == User.Identity.Name);
+                    CommentVote vote = new CommentVote();
+                    vote.VoteValue = 1;
+                    vote.AspNetUser = usr;
+                    vote.Comment = comment;
+                    if (ModelState.IsValid)
+                    {
+                        db.CommentVotes.Add(vote);
+                        await db.SaveChangesAsync();
+                    }
                 }
             }
             return RedirectToAction("Details", new { id = id });

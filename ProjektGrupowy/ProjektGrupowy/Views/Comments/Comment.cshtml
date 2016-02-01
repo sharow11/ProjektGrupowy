@@ -13,6 +13,34 @@
     <span style="color: #0a204d; font-size: 15px; margin-left: 50px;">
         @Html.DisplayFor(x => x.Comment.AspNetUser.UserName)
     </span>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <a href='@Url.Action("CommentUpVote", "Ideas", new {id = Model.Comment.Id})'>
+            <img src='@Url.Content("~/Images/like.png")' alt="Up vote" width="16px" height="16px"/>
+        </a>
+        <a href='@Url.Action("CommentDownVote", "Ideas", new {id = Model.Comment.Id})'>
+            <img src='@Url.Content("~/Images/dislike.png")' alt="Down vote" width="16px" height="16px"/>
+        </a>
+        if (@Model.Comment.Score < 0)
+        {
+            <b style="color: #ce0000; font-size: 16px;">
+                @Html.DisplayFor(x => x.Comment.Score)
+            </b>
+        }
+        else if (@Model.Comment.Score == 0)
+        {
+            <b style="color: #000000; font-size: 16px;">
+                @Html.DisplayFor(x => x.Comment.Score)
+            </b>
+        }
+        else
+        {
+            <b style="color: #00af00; font-size: 16px;">
+                @Html.DisplayFor(x => x.Comment.Score)
+            </b>
+        }
+
+    }
     <div class="dialogbox">
         <div class="body">
             <span class="@tekst"></span>
