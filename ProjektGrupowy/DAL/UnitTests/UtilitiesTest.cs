@@ -89,6 +89,19 @@ namespace DAL.UnitTests
                 Picture = "http:////www.autumnbench.com//wp-content//uploads//2014//05//geek-300x300.jpg",
                 AspNetUser = usr
             };
+
+            Idea idea2 = new Idea()
+            {
+                Deleted = false,
+                Description = "Most scraching posts avalible online are made to convince owner to buy them, and are not optimal for cat use. Owners should design own scraching posts and then give this designs to carpenters. This would make the furry overlords happier and decrease unemployment.",
+                TimeClosed = DateTime.Now,
+                TimePosted = DateTime.Now,
+                TimeValidated = DateTime.Now,
+                Title = "Innovative program to design cat scraching posts",
+                Picture = "http:////www.kittykit.co.uk//336-thickbox//gandia-scratching-post.jpg",
+                AspNetUser = aspNetUser
+            };
+
             dbcontext.AspNetUsers.Add(usr);
             dbcontext.AspNetUsers.Add(aspNetUser);
 
@@ -101,6 +114,7 @@ namespace DAL.UnitTests
                 var tmp = e.EntityValidationErrors;
             }
             dbcontext.Ideas.Add(idea);
+            dbcontext.Ideas.Add(idea2);
 
             try
             {
