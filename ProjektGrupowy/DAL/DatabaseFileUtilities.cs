@@ -73,13 +73,5 @@ namespace DAL
             }
         }
 
-        public static void ClearDatabase()
-        {
-        }
-
-        public static void FillWithRandomData()
-        {
-        }
-
     }
 }
